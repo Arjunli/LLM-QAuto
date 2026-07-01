@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试报告 · image-gen-qc-batch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rep-bg: #e8e8e4;
+            --rep-surface: #ffffff;
+            --rep-surface-2: #f7f7f4;
+            --rep-border: #c8c8c1;
+            --rep-text: #1c1c18;
+            --rep-muted: #5a5a52;
+            --rep-accent: #0d5c56;
+            --rep-pass: #0f766e;
+            --rep-fail: #a32020;
+            --rep-warn: #b45309;
+        }
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+        body {
+            font-family: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.55;
+            color: var(--rep-text);
+            background: var(--rep-bg);
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+        }
+        .rep-wrap {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 28px 20px 48px;
+        }
+        .rep-hero {
+            background: var(--rep-surface);
+            border: 1px solid var(--rep-border);
+            border-radius: 2px;
+            padding: 22px 24px 20px;
+            margin-bottom: 18px;
+            position: relative;
+            box-shadow: 0 1px 0 rgba(28, 28, 24, 0.04);
+        }
+        .rep-hero::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: var(--rep-accent);
+            border-radius: 2px 0 0 2px;
+        }
+        .rep-eyebrow {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--rep-muted);
+            margin-bottom: 6px;
+        }
+        .rep-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+            color: var(--rep-text);
+        }
+        .rep-sub {
+            color: var(--rep-muted);
+            font-size: 14px;
+        }
+        .rep-code {
+            font-family: ui-monospace, Consolas, "Cascadia Code", monospace;
+            font-size: 12px;
+            background: var(--rep-surface-2);
+            padding: 2px 6px;
+            border: 1px solid var(--rep-border);
+            border-radius: 2px;
+        }
+        .rep-hero-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .rep-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            border: 1px solid var(--rep-border);
+            background: var(--rep-surface-2);
+            color: var(--rep-text);
+        }
+        .rep-status-pill .rep-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #0d5c56;
+        }
+        .rep-kpis {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        @media (max-width: 900px) {
+            .rep-kpis { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 520px) {
+            .rep-kpis { grid-template-columns: 1fr; }
+        }
+        .rep-kpi {
+            background: var(--rep-surface);
+            border: 1px solid var(--rep-border);
+            border-radius: 2px;
+            padding: 14px 16px;
+        }
+        .rep-kpi h3 {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--rep-muted);
+            margin-bottom: 6px;
+        }
+        .rep-kpi .rep-value {
+            font-size: 1.65rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--rep-text);
+            line-height: 1.2;
+        }
+        .rep-kpi .rep-detail {
+            font-size: 12px;
+            color: var(--rep-muted);
+            margin-top: 6px;
+        }
+        .rep-kpi .rep-pass { color: var(--rep-pass); }
+        .rep-progress {
+            height: 6px;
+            background: rgba(200, 200, 193, 0.5);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .rep-progress-fill {
+            height: 100%;
+            background: var(--rep-accent);
+            border-radius: 2px;
+            transition: width 0.35s ease;
+        }
+        .rep-panel {
+            background: var(--rep-surface);
+            border: 1px solid var(--rep-border);
+            border-radius: 2px;
+            padding: 20px 22px 22px;
+            margin-bottom: 14px;
+        }
+        .rep-section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--rep-border);
+            color: var(--rep-text);
+            letter-spacing: -0.01em;
+        }
+        table.rep-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .rep-table th, .rep-table td {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid #eef0eb;
+            vertical-align: top;
+        }
+        .rep-table th {
+            font-weight: 600;
+            color: var(--rep-text);
+            background: var(--rep-surface-2);
+            font-size: 12px;
+        }
+        .rep-table tbody tr:hover {
+            background: rgba(13, 92, 86, 0.035);
+        }
+        .pass { color: var(--rep-pass); font-weight: 600; }
+        .fail { color: var(--rep-fail); font-weight: 600; }
+        .warn { color: var(--rep-warn); font-weight: 600; }
+        .rep-dim-block {
+            margin-bottom: 26px;
+            padding-bottom: 22px;
+            border-bottom: 1px dashed var(--rep-border);
+        }
+        .rep-dim-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .rep-dim-block h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--rep-text);
+        }
+        .rep-dim-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 14px 0 16px;
+        }
+        @media (max-width: 720px) {
+            .rep-dim-metrics { grid-template-columns: repeat(2, 1fr); }
+        }
+        .rep-dim-mini {
+            background: var(--rep-surface-2);
+            border: 1px solid var(--rep-border);
+            border-radius: 2px;
+            padding: 10px 12px;
+        }
+        .rep-dim-mini .lbl {
+            font-size: 11px;
+            color: var(--rep-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+        .rep-dim-mini .num {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .rep-dim-mini .rate-ok { color: var(--rep-pass); }
+        .rep-dim-mini .rate-bad { color: var(--rep-fail); }
+        .rep-dim-block h4 {
+            font-size: 13px;
+            font-weight: 600;
+            margin: 18px 0 8px;
+            color: var(--rep-muted);
+        }
+        .fail-example {
+            background: #f8eded;
+            border: 1px solid rgba(163, 32, 32, 0.25);
+            border-radius: 2px;
+            padding: 14px 16px;
+            margin: 12px 0;
+        }
+        .fail-example pre {
+            background: var(--rep-surface-2);
+            border: 1px solid var(--rep-border);
+            padding: 10px 12px;
+            border-radius: 2px;
+            overflow-x: auto;
+            font-size: 12px;
+            margin-top: 8px;
+            font-family: ui-monospace, Consolas, monospace;
+        }
+        .rep-case-card {
+            border: 1px solid var(--rep-border);
+            border-radius: 2px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .rep-case-card-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--rep-surface-2);
+            border-bottom: 1px solid var(--rep-border);
+            font-size: 14px;
+        }
+        .rep-compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        @media (max-width: 820px) {
+            .rep-compare-grid { grid-template-columns: 1fr; }
+        }
+        .rep-compare-col {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--rep-border);
+            min-width: 0;
+        }
+        .rep-compare-grid .rep-compare-col:first-child {
+            border-right: 1px solid var(--rep-border);
+        }
+        @media (max-width: 820px) {
+            .rep-compare-grid .rep-compare-col:first-child {
+                border-right: none;
+                border-bottom: 1px solid var(--rep-border);
+            }
+        }
+        .rep-compare-col h4 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--rep-muted);
+            margin-bottom: 10px;
+        }
+        .rep-field-empty {
+            color: var(--rep-muted);
+            font-style: italic;
+        }
+        .rep-field-val {
+            font-family: ui-monospace, Consolas, monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        .rep-compare-full {
+            padding: 12px 16px 16px;
+            border-top: 1px dashed var(--rep-border);
+        }
+        .rep-compare-full details {
+            margin-top: 8px;
+        }
+        .rep-compare-full summary {
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--rep-accent);
+        }
+        .rep-pre-block {
+            background: var(--rep-surface-2);
+            border: 1px solid var(--rep-border);
+            padding: 10px 12px;
+            border-radius: 2px;
+            overflow-x: auto;
+            font-size: 11px;
+            line-height: 1.45;
+            font-family: ui-monospace, Consolas, monospace;
+            max-height: 280px;
+            overflow-y: auto;
+            margin-top: 8px;
+        }
+        .rep-in-judge {
+            color: var(--rep-accent);
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .rep-not-in-judge {
+            color: var(--rep-muted);
+            font-size: 12px;
+        }
+        .recommendation {
+            background: rgba(13, 92, 86, 0.06);
+            border-left: 3px solid var(--rep-accent);
+            padding: 10px 14px;
+            margin: 8px 0;
+            border-radius: 0 2px 2px 0;
+            font-size: 14px;
+        }
+        .category-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            background: var(--rep-surface-2);
+            border: 1px solid var(--rep-border);
+            border-radius: 2px;
+            font-size: 12px;
+        }
+        .ci-range {
+            color: var(--rep-muted);
+            font-size: 13px;
+        }
+        .rep-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 12px;
+        }
+        .rep-gallery-card {
+            border: 1px solid var(--rep-border);
+            border-radius: 2px;
+            background: var(--rep-surface-2);
+            overflow: hidden;
+        }
+        .rep-gallery-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+            background: #fff;
+            display: block;
+        }
+        .rep-gallery-meta {
+            padding: 8px 10px;
+            font-size: 12px;
+            color: var(--rep-muted);
+        }
+        .rep-gallery-meta strong {
+            color: var(--rep-text);
+        }
+        footer.rep-foot {
+            text-align: center;
+            padding: 28px 12px 8px;
+            color: var(--rep-muted);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="rep-wrap">
+        <header class="rep-hero">
+            <div class="rep-hero-row">
+                <div>
+                    <p class="rep-eyebrow">LLM-QAuto · 测试报告</p>
+                    <h1 class="rep-title">image-gen-qc-batch</h1>
+                    <p class="rep-sub">运行 <code class="rep-code">run_20260630_170642_image-gen-qc-batch_20260630_163123</code></p>
+                </div>
+                <div class="rep-status-pill" role="status">
+                    <span class="rep-dot" aria-hidden="true"></span>
+                    <span>✓ PASSED</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="rep-kpis">
+            <div class="rep-kpi">
+                <h3>总样本</h3>
+                <div class="rep-value">1</div>
+                <div class="rep-detail">本运行纳入评测的条目数</div>
+            </div>
+            <div class="rep-kpi">
+                <h3>通过率</h3>
+                <div class="rep-value">100.0%</div>
+                <div class="rep-progress"><div class="rep-progress-fill" style="width: min(100%, 100.0%)"></div></div>
+            </div>
+            <div class="rep-kpi">
+                <h3>通过 / 失败</h3>
+                <div class="rep-value"><span class="rep-pass">1</span><span style="color:var(--rep-muted);font-weight:600"> / </span><span style="color:var(--rep-fail);font-weight:700">0</span></div>
+                <div class="rep-detail">样本级判定汇总</div>
+            </div>
+            <div class="rep-kpi">
+                <h3>耗时</h3>
+                <div class="rep-value" style="font-size:1.35rem">19秒</div>
+                <div class="rep-detail">2026-06-30 17:06 开始</div>
+            </div>
+        </div>
+
+        <div class="rep-panel">
+            <h2 class="rep-section-title">通过标准检查</h2>
+            <table class="rep-table">
+                <thead>
+                    <tr>
+                        <th>检查项</th>
+                        <th>状态</th>
+                        <th>实际值</th>
+                        <th>期望值</th>
+                        <th>详情</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td>全局平均分门槛</td>
+                    <td class="pass">通过</td>
+                    <td>9.30</td>
+                    <td>6.00</td>
+                    <td>平均得分: 9.30</td>
+                </tr>
+            
+                <tr>
+                    <td>画面质量与一致维度平均分</td>
+                    <td class="pass">通过</td>
+                    <td>9.00</td>
+                    <td>6.00</td>
+                    <td>维度「画面质量与一致」平均得分: 9.00</td>
+                </tr>
+            
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="rep-panel">
+            <h2 class="rep-section-title">维度统计</h2>
+            
+                <div class="rep-dim-block">
+                    <h3>画面质量与一致</h3>
+                    <div class="rep-dim-metrics">
+                        <div class="rep-dim-mini">
+                            <div class="lbl">通过率</div>
+                            <div class="num rate-ok">100.0%</div>
+                        </div>
+                        <div class="rep-dim-mini">
+                            <div class="lbl">平均分</div>
+                            <div class="num">9.00</div>
+                        </div>
+                        <div class="rep-dim-mini">
+                            <div class="lbl">样本数</div>
+                            <div class="num">1</div>
+                        </div>
+                        <div class="rep-dim-mini">
+                            <div class="lbl">标准差</div>
+                            <div class="num">0.00</div>
+                        </div>
+                    </div>
+                    <h4>类别分布</h4>
+                    <table class="rep-table">
+                        <thead>
+                            <tr>
+                                <th>类别</th>
+                                <th>数量</th>
+                                <th>占比</th>
+                                <th>95%置信区间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                <tr>
+                    <td><span class="category-tag">图文一致性</span></td>
+                    <td>1</td>
+                    <td>100.0%</td>
+                    <td class="ci-range">[20.7%, 100.0%]</td>
+                </tr>
+            
+                <tr>
+                    <td><span class="category-tag">画面质量</span></td>
+                    <td>1</td>
+                    <td>100.0%</td>
+                    <td class="ci-range">[20.7%, 100.0%]</td>
+                </tr>
+            
+                <tr>
+                    <td><span class="category-tag">电商合规（无文字水印）</span></td>
+                    <td>1</td>
+                    <td>100.0%</td>
+                    <td class="ci-range">[20.7%, 100.0%]</td>
+                </tr>
+            
+                        </tbody>
+                    </table>
+                </div>
+            
+                <div class="rep-dim-block">
+                    <h3>图片交付</h3>
+                    <div class="rep-dim-metrics">
+                        <div class="rep-dim-mini">
+                            <div class="lbl">通过率</div>
+                            <div class="num rate-ok">100.0%</div>
+                        </div>
+                        <div class="rep-dim-mini">
+                            <div class="lbl">平均分</div>
+                            <div class="num">10.00</div>
+                        </div>
+                        <div class="rep-dim-mini">
+                            <div class="lbl">样本数</div>
+                            <div class="num">1</div>
+                        </div>
+                        <div class="rep-dim-mini">
+                            <div class="lbl">标准差</div>
+                            <div class="num">0.00</div>
+                        </div>
+                    </div>
+                    <h4>类别分布</h4>
+                    <table class="rep-table">
+                        <thead>
+                            <tr>
+                                <th>类别</th>
+                                <th>数量</th>
+                                <th>占比</th>
+                                <th>95%置信区间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                <tr>
+                    <td><span class="category-tag">format_compliant</span></td>
+                    <td>1</td>
+                    <td>100.0%</td>
+                    <td class="ci-range">[20.7%, 100.0%]</td>
+                </tr>
+            
+                        </tbody>
+                    </table>
+                </div>
+            
+        </div>
+        
+        
+            <div class="rep-panel">
+                <h2 class="rep-section-title">接口返回与评测对照</h2>
+                <p style="color:var(--rep-muted);font-size:14px;margin-bottom:12px">
+                    左表对比「配置解析字段」与「评委实际看到的摘录」；下方可展开原始响应与完整解析正文。
+                    解析路径 <code>data</code> · 字段 0 个
+                </p>
+                
+                <div class="rep-case-card">
+                    <div class="rep-case-card-head">
+                        <strong>case_0001</strong>
+                        <span class="pass">通过</span>
+                        <span style="color:var(--rep-muted)">综合分 9.30</span>
+                        <span style="color:var(--rep-muted)">调用 765 ms</span>
+                    </div>
+                    
+                    
+            <table class="rep-table">
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>接口解析值</th>
+                        <th>评委摘录值</th>
+                        <th>进入评委</th>
+                    </tr>
+                </thead>
+                <tbody><tr><td><code>designTaskId</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">97</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>site</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">美国</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>sku</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">202511LPJHS159-BXNSHLQCDCUS</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>productName</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">4对滴油耳饰彩色民族风耳坠</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>sellingPoints</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">[
+&quot;1、商品名称：4对装波西米亚复古滴油花朵耳坠（民族风水滴形耳环）&quot;,
+&quot;2、核心卖点：&quot;,
+&quot;- 浓郁的波西米亚民族风情，采用经典的水滴形轮廓搭配精致的滴油花朵图案，复古金属边框与绚丽色彩交织，为整体造型增添一抹异域浪漫与艺术气息。&quot;,
+&quot;- 4对多色系组合套装，涵盖紫蓝、绿、蓝、棕等大地与冷色调，轻松匹配不同肤色与日常穿搭风格；轻盈的鱼钩式设计佩戴舒适，无负担感，满足全天候佩戴需求。&quot;,
+&quot;- 细腻的滴油工艺结合中心水钻点缀，色彩饱满且富有光泽感，不易褪色；细节精致，在自然光下极具视觉吸引力，是度假拍照、社交媒体分享的绝佳配饰。&quot;,
+&quot;3、适用人群：热爱波西米亚与复古民族风的女性、追求个性配饰的年轻女孩、度假与音乐节爱好者、寻找高性价比节日礼物的消费者。&quot;,
+&quot;4、使用场景：日常休闲与通勤穿搭点缀、海滩度假与波西米亚风主题派对、户外音乐节与艺术展览、作为生日或节日（如圣诞节、情人节）的贴心礼物。&quot;,
+&quot;5、规格参数：&quot;,
+&quot;- 外观：水滴形/泪滴形设计，表面饰有滴油花卉图案及水钻镶嵌，搭配复古鱼钩式耳钩。&quot;,
+&quot;- 配色：4组复古撞色（紫粉与蓝绿、浅绿与…[已截断]</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>productImages</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">[
+&quot;https://ai-automation-stage.oss-cn-shenzhen.aliyuncs.com/8e7dada45d18ca6b7125d833e945609c8808fdc61e16183541bba461643afa90.png&quot;
+]</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>dimensionImages</code></td><td><span class="rep-field-empty">（空）</span></td><td><span class="rep-field-empty">（空）</span></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>lastPrompt</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">正向提示词：专业单反相机微距拍摄，四对彩色民族风滴油耳饰整齐排列或模特局部佩戴，浅景深突出细节，柔和自然光配合立体光影，色彩鲜艳饱和，民族风格图案清晰，画面纯净无文字，干净背景，高质感珠宝展示。
+反向提示词：文字，乱码，拼写错误，品牌Logo，水印，促销标签，价格标签，贴纸，说明书，肢体畸形，比例失调，画面扭曲，结构模糊，多余配件，低画质，粗糙纹理，阴影过重，反光刺眼，元素杂乱。</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>lastModel</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">gemini-3.1-flash-image</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>lastAspectRatio</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">1:1</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>subTaskCount</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">1</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>subTasks</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">[
+{
+&quot;id&quot;: 190,
+&quot;subTaskNo&quot;: &quot;ST20260630977410&quot;,
+&quot;designTaskId&quot;: 97,
+&quot;model&quot;: &quot;gemini-3.1-flash-image&quot;,
+&quot;modelDisplayName&quot;: null,
+&quot;aspectRatio&quot;: &quot;1:1&quot;,
+&quot;resolution&quot;: &quot;1024x1024&quot;,
+&quot;enableText&quot;: false,
+&quot;imageTypeCounts&quot;: {
+&quot;main-image&quot;: 1,
+&quot;broad-image&quot;: 1
+},
+&quot;imageTypeDisplay&quot;: null,
+&quot;status&quot;: 2,
+&quot;statusDesc&quot;: null,
+&quot;progress&quot;: 100,
+&quot;totalImages&quot;: 2,
+&quot;completedImages&quot;: 2,
+&quot;failedImages&quot;: 0,
+&quot;errorMsg&quot;: null,
+&quot;cost&quot;: 6.0,
+&quot;createTime&quot;: 1782806977623,
+&quot;generationTime&quot;: null,
+&quot;images&quot;: [
+…[已截断]</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>subTaskSimpleList</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">[
+{
+&quot;id&quot;: 190,
+&quot;status&quot;: 2
+}
+]</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>balance</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">9356.0</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>modelOptions</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">[
+{
+&quot;value&quot;: &quot;gemini-3.1-flash-image&quot;,
+&quot;label&quot;: &quot;Nano Banana 2&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;gpt-image-2&quot;,
+&quot;label&quot;: &quot;GPT Image 2（中）&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;gpt-image-2-high&quot;,
+&quot;label&quot;: &quot;GPT Image 2（高）&quot;,
+&quot;description&quot;: &quot;&quot;
+}
+]</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>aspectRatioOptions</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">[
+{
+&quot;value&quot;: &quot;5:4&quot;,
+&quot;label&quot;: &quot;5:4&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;9:16&quot;,
+&quot;label&quot;: &quot;9:16&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;4:5&quot;,
+&quot;label&quot;: &quot;4:5&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;3:4&quot;,
+&quot;label&quot;: &quot;3:4&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;16:9&quot;,
+&quot;label&quot;: &quot;16:9&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;1:1&quot;,
+&quot;label&quot;: &quot;1:1&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;2:3&quot;,
+&quot;label&quot;: &quot;2:3&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;3:2&quot;,
+&quot;label&quot;: &quot;3:2&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;4:3&quot;,
+&quot;label&quot;: &quot;4:3&quot;,
+&quot;descrip…[已截断]</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>resolutionOptions</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">[
+{
+&quot;value&quot;: &quot;1200x896&quot;,
+&quot;label&quot;: &quot;1200x896&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;896x1200&quot;,
+&quot;label&quot;: &quot;896x1200&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;1264x848&quot;,
+&quot;label&quot;: &quot;1264x848&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;848x1264&quot;,
+&quot;label&quot;: &quot;848x1264&quot;,
+&quot;description&quot;: &quot;&quot;
+},
+{
+&quot;value&quot;: &quot;1024x1024&quot;,
+&quot;label&quot;: &quot;1024x1024&quot;,
+&quot;description&quot;: &quot;&quot;
+}
+]</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>enableTextOptions</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">[
+{
+&quot;value&quot;: &quot;false&quot;,
+&quot;label&quot;: &quot;否&quot;,
+&quot;description&quot;: &quot;纯图片，不包含文字&quot;
+},
+{
+&quot;value&quot;: &quot;true&quot;,
+&quot;label&quot;: &quot;是&quot;,
+&quot;description&quot;: &quot;图片带文案&quot;
+}
+]</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>hasProcessingTask</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">False</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>processingSubTask</code></td><td><span class="rep-field-empty">（空）</span></td><td><span class="rep-field-empty">（空）</span></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>localPromptsByType</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">{
+&quot;main-image&quot;: &quot;正向：纯白背景（RGB 255,255,255），4对滴油耳饰彩色民族风耳坠居中排列，主体清晰，占画面约60%-70%；柔和漫射光从正面与侧上方45度打光，消除硬阴影，保留距产品边缘约5%的浅灰色柔和投影；高光点落在滴釉表面与金属连接处，突出彩色釉面光泽与金属质感，色彩还原真实饱和；产品结构完整，左右对称，无遮挡无变形。避免：任何文字、商标、LOGO；额外道具、装饰、模特或人物；背景出现灰色、米色或其他杂色；产品过曝、过暗、反光失真或色偏；多角度展示或角度倾斜过度；后期合成、水印或杂色颗粒。&quot;
+}</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>enableReferenceImage</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">True</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>dimensionData</code></td><td><span class="rep-field-empty">（空）</span></td><td><span class="rep-field-empty">（空）</span></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>referenceImagesByType</code></td><td><span class="rep-field-empty">（空）</span></td><td><span class="rep-field-empty">（空）</span></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>lastSelectedImageTypes</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">[
+&quot;main-image&quot;,
+&quot;broad-image&quot;
+]</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>lastImageTypeCounts</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">{
+&quot;main-image&quot;: 1,
+&quot;broad-image&quot;: 1
+}</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>sellingConfig</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">{
+&quot;model&quot;: &quot;qwen3.7-plus&quot;,
+&quot;maxImages&quot;: 4,
+&quot;webSearchDefault&quot;: false,
+&quot;creditCost&quot;: 1
+}</div></td><td><span class="rep-in-judge">是</span></td></tr><tr><td><code>aiWriteConfig</code></td><td><span class="rep-field-empty">（空）</span></td><td><div class="rep-field-val">{
+&quot;globalCreditCost&quot;: 1,
+&quot;typeCreditCost&quot;: 1
+}</div></td><td><span class="rep-in-judge">是</span></td></tr></tbody>
+            </table>
+        
+                    <div class="rep-compare-grid">
+                        <div class="rep-compare-col">
+                            <h4>被测接口</h4>
+                            <details><summary>展开原始 HTTP 响应（摘要）</summary><pre class="rep-pre-block">{&quot;code&quot;: 0, &quot;data&quot;: {&quot;designTaskId&quot;: 97, &quot;site&quot;: &quot;美国&quot;, &quot;sku&quot;: &quot;202511LPJHS159-BXNSHLQCDCUS&quot;, &quot;productName&quot;: &quot;4对滴油耳饰彩色民族风耳坠&quot;, &quot;sellingPoints&quot;: [&quot;1、商品名称：4对装波西米亚复古滴油花朵耳坠（民族风水滴形耳环）&quot;, &quot;2、核心卖点：&quot;, &quot;- 浓郁的波西米亚民族风情，采用经典的水滴形轮廓搭配精致的滴油花朵图案，复古金属边框与绚丽色彩交织，为整体造型增添一抹异域浪漫与艺术气息。&quot;, &quot;- 4对多色系组合套装，涵盖紫蓝、绿、蓝、棕等大地与冷色调，轻松匹配不同肤色与日常穿搭风格；轻盈的鱼钩式设计佩戴舒适，无负担感，满足全天候佩戴需求。&quot;, &quot;- 细腻的滴油工艺结合中心水钻点缀，色彩饱满且富有光泽感，不易褪色；细节精致，在自然光下极具视觉吸引力，是度假拍照、社交媒体分享的绝佳配饰。&quot;, &quot;3、适用人群：热爱波西米亚与复古民族风的女性、追求个性配饰的年轻女孩、度假与音乐节爱好者、寻找高性价比节日礼物的消费者。&quot;, &quot;4、使用场景：日常休闲与通勤穿搭点缀、海滩度假与波西米亚风主题派对、户外音乐节与艺术展览、作为生日或节日（如圣诞节、情人节）的贴心礼物。&quot;, &quot;5、规格参数：&quot;, &quot;- 外观：水滴形/泪滴形设计，表面饰有滴油花卉图案及水钻镶嵌，搭配复古鱼钩式耳钩。&quot;, &quot;- 配色：4组复古撞色（紫粉与蓝绿、浅绿与深绿、浅蓝与深蓝、米棕与橙棕），辅以古铜色或银色金属质感边框。&quot;, &quot;- 配件：4对（共8只）滴油花朵耳坠。&quot;], &quot;productImages&quot;: [&quot;https://ai-automation-stage.oss-cn-shenzhen.aliyuncs.com/8e7dada45d18ca6b7125d833e945609c8808fdc61e16183541bba461643afa90.png&quot;], &quot;dimensionImages&quot;: null, &quot;lastPrompt&quot;: &quot;正向提示词：专业单反相机微距拍摄，四对彩色民族风滴油耳饰整齐排列或模特局部佩戴，浅景深突出细节，柔和自然光配合立体光影，色彩鲜艳饱和，民族风格图案清晰，画面纯净无文字，干净背景，高质感珠宝展示。\n反向提示词：文字，乱码，拼写错误，品牌Logo，水印，促销标签，价格标签，贴纸，说明书，肢体畸形，比例失调，画面扭曲，结构模糊，多余配件，低画质，粗糙纹理，阴影过重，反光刺眼，元素杂乱。&quot;, &quot;lastModel&quot;: &quot;gemini-3.1-flash-image&quot;, &quot;lastAspectRatio&quot;: &quot;1:1&quot;, &quot;subTaskCount&quot;: 1, &quot;subTasks&quot;: [{&quot;id&quot;: 190, &quot;subTaskNo&quot;: &quot;ST20260630977410&quot;, &quot;designTaskId&quot;: 97, &quot;model&quot;: &quot;gemini-3.1-flash-image&quot;, &quot;modelDisplayName&quot;: null, &quot;aspectRatio&quot;: &quot;1:1&quot;, &quot;resolution&quot;: &quot;1024x1024&quot;, &quot;enableText&quot;: false, &quot;imageTypeCounts&quot;: {&quot;main-image&quot;: 1, &quot;broad-image&quot;: 1}, &quot;imageTypeDisplay&quot;: null, &quot;status&quot;: 2, &quot;statusDesc&quot;: null, &quot;progress&quot;: 100, &quot;totalImages&quot;: 2, &quot;completedImages&quot;: 2, &quot;failedImages&quot;: 0, &quot;errorMsg&quot;: null, &quot;cost&quot;: 6.0, &quot;createTime&quot;: 1782806977623, &quot;generationTime&quot;: null, &quot;images&quot;: [{&quot;id&quot;: 393, &quot;subTaskId&quot;: 190, &quot;designTaskId&quot;: 97, &quot;imageType&quot;: &quot;main-image&quot;, &quot;imageTypeName&quot;: &quot;主图&quot;, &quot;imageUrl&quot;: &quot;https://ai-image-stage.oss-cn-shenzhen.aliyuncs.com/generated/190_main-image_20260630_161008_0.png&quot;, &quot;thumbnailUrl&quot;: null, &quot;fileName&quot;: &quot;main-image_0.png&quot;, &quot;status&quot;: 1, &quot;statusDesc&quot;: null, &quot;errorMsg&quot;: null, &quot;sort&quot;: 0, &quot;createTime&quot;: 1782807009079}, {&quot;id&quot;: 394, &quot;subTaskId&quot;: 190, &quot;designTaskId&quot;: 97, &quot;imageType&quot;: &quot;broad-image&quot;, &quot;imageTypeName&quot;: &quot;4宫格图&quot;, &quot;imageUrl&quot;: &quot;https://ai-image-stage.oss-cn-shenzhen.aliyuncs.com/generated/190_broad-image_20260630_161017_0.png&quot;, &quot;thumbnailUrl&quot;: null, &quot;fileName&quot;: &quot;broad-image_0.png&quot;, &quot;status&quot;: 1, &quot;statusDesc&quot;: null, &quot;errorMsg&quot;: null, &quot;sort&quot;: 1, &quot;createTime&quot;: 1782807017233}]}], &quot;subTaskSimpleList&quot;: [{…</pre></details>
+                            <details style="margin-top:8px"><summary>展开完整解析正文</summary><pre class="rep-pre-block">{&quot;designTaskId&quot;: 97, &quot;site&quot;: &quot;美国&quot;, &quot;sku&quot;: &quot;202511LPJHS159-BXNSHLQCDCUS&quot;, &quot;productName&quot;: &quot;4对滴油耳饰彩色民族风耳坠&quot;, &quot;sellingPoints&quot;: [&quot;1、商品名称：4对装波西米亚复古滴油花朵耳坠（民族风水滴形耳环）&quot;, &quot;2、核心卖点：&quot;, &quot;- 浓郁的波西米亚民族风情，采用经典的水滴形轮廓搭配精致的滴油花朵图案，复古金属边框与绚丽色彩交织，为整体造型增添一抹异域浪漫与艺术气息。&quot;, &quot;- 4对多色系组合套装，涵盖紫蓝、绿、蓝、棕等大地与冷色调，轻松匹配不同肤色与日常穿搭风格；轻盈的鱼钩式设计佩戴舒适，无负担感，满足全天候佩戴需求。&quot;, &quot;- 细腻的滴油工艺结合中心水钻点缀，色彩饱满且富有光泽感，不易褪色；细节精致，在自然光下极具视觉吸引力，是度假拍照、社交媒体分享的绝佳配饰。&quot;, &quot;3、适用人群：热爱波西米亚与复古民族风的女性、追求个性配饰的年轻女孩、度假与音乐节爱好者、寻找高性价比节日礼物的消费者。&quot;, &quot;4、使用场景：日常休闲与通勤穿搭点缀、海滩度假与波西米亚风主题派对、户外音乐节与艺术展览、作为生日或节日（如圣诞节、情人节）的贴心礼物。&quot;, &quot;5、规格参数：&quot;, &quot;- 外观：水滴形/泪滴形设计，表面饰有滴油花卉图案及水钻镶嵌，搭配复古鱼钩式耳钩。&quot;, &quot;- 配色：4组复古撞色（紫粉与蓝绿、浅绿与深绿、浅蓝与深蓝、米棕与橙棕），辅以古铜色或银色金属质感边框。&quot;, &quot;- 配件：4对（共8只）滴油花朵耳坠。&quot;], &quot;productImages&quot;: [&quot;https://ai-automation-stage.oss-cn-shenzhen.aliyuncs.com/8e7dada45d18ca6b7125d833e945609c8808fdc61e16183541bba461643afa90.png&quot;], &quot;dimensionImages&quot;: null, &quot;lastPrompt&quot;: &quot;正向提示词：专业单反相机微距拍摄，四对彩色民族风滴油耳饰整齐排列或模特局部佩戴，浅景深突出细节，柔和自然光配合立体光影，色彩鲜艳饱和，民族风格图案清晰，画面纯净无文字，干净背景，高质感珠宝展示。\n反向提示词：文字，乱码，拼写错误，品牌Logo，水印，促销标签，价格标签，贴纸，说明书，肢体畸形，比例失调，画面扭曲，结构模糊，多余配件，低画质，粗糙纹理，阴影过重，反光刺眼，元素杂乱。&quot;, &quot;lastModel&quot;: &quot;gemini-3.1-flash-image&quot;, &quot;lastAspectRatio&quot;: &quot;1:1&quot;, &quot;subTaskCount&quot;: 1, &quot;subTasks&quot;: [{&quot;id&quot;: 190, &quot;subTaskNo&quot;: &quot;ST20260630977410&quot;, &quot;designTaskId&quot;: 97, &quot;model&quot;: &quot;gemini-3.1-flash-image&quot;, &quot;modelDisplayName&quot;: null, &quot;aspectRatio&quot;: &quot;1:1&quot;, &quot;resolution&quot;: &quot;1024x1024&quot;, &quot;enableText&quot;: false, &quot;imageTypeCounts&quot;: {&quot;main-image&quot;: 1, &quot;broad-image&quot;: 1}, &quot;imageTypeDisplay&quot;: null, &quot;status&quot;: 2, &quot;statusDesc&quot;: null, &quot;progress&quot;: 100, &quot;totalImages&quot;: 2, &quot;completedImages&quot;: 2, &quot;failedImages&quot;: 0, &quot;errorMsg&quot;: null, &quot;cost&quot;: 6.0, &quot;createTime&quot;: 1
+…[已截断]</pre></details>
+                        </div>
+                        <div class="rep-compare-col">
+                            <h4>提交评委的摘录</h4>
+                            <pre class="rep-pre-block">{&quot;designTaskId&quot;: 97, &quot;site&quot;: &quot;美国&quot;, &quot;sku&quot;: &quot;202511LPJHS159-BXNSHLQCDCUS&quot;, &quot;productName&quot;: &quot;4对滴油耳饰彩色民族风耳坠&quot;, &quot;sellingPoints&quot;: [&quot;1、商品名称：4对装波西米亚复古滴油花朵耳坠（民族风水滴形耳环）&quot;, &quot;2、核心卖点：&quot;, &quot;- 浓郁的波西米亚民族风情，采用经典的水滴形轮廓搭配精致的滴油花朵图案，复古金属边框与绚丽色彩交织，为整体造型增添一抹异域浪漫与艺术气息。&quot;, &quot;- 4对多色系组合套装，涵盖紫蓝、绿、蓝、棕等大地与冷色调，轻松匹配不同肤色与日常穿搭风格；轻盈的鱼钩式设计佩戴舒适，无负担感，满足全天候佩戴需求。&quot;, &quot;- 细腻的滴油工艺结合中心水钻点缀，色彩饱满且富有光泽感，不易褪色；细节精致，在自然光下极具视觉吸引力，是度假拍照、社交媒体分享的绝佳配饰。&quot;, &quot;3、适用人群：热爱波西米亚与复古民族风的女性、追求个性配饰的年轻女孩、度假与音乐节爱好者、寻找高性价比节日礼物的消费者。&quot;, &quot;4、使用场景：日常休闲与通勤穿搭点缀、海滩度假与波西米亚风主题派对、户外音乐节与艺术展览、作为生日或节日（如圣诞节、情人节）的贴心礼物。&quot;, &quot;5、规格参数：&quot;, &quot;- 外观：水滴形/泪滴形设计，表面饰有滴油花卉图案及水钻镶嵌，搭配复古鱼钩式耳钩。&quot;, &quot;- 配色：4组复古撞色（紫粉与蓝绿、浅绿与深绿、浅蓝与深蓝、米棕与橙棕），辅以古铜色或银色金属质感边框。&quot;, &quot;- 配件：4对（共8只）滴油花朵耳坠。&quot;], &quot;productImages&quot;: [&quot;https://ai-automation-stage.oss-cn-shenzhen.aliyuncs.com/8e7dada45d18ca6b7125d833e945609c8808fdc61e16183541bba461643afa90.png&quot;], &quot;dimensionImages&quot;: null, &quot;lastPrompt&quot;: &quot;正向提示词：专业单反相机微距拍摄，四对彩色民族风滴油耳饰整齐排列或模特局部佩戴，浅景深突出细节，柔和自然光配合立体光影，色彩鲜艳饱和，民族风格图案清晰，画面纯净无文字，干净背景，高质感珠宝展示。\n反向提示词：文字，乱码，拼写错误，品牌Logo，水印，促销标签，价格标签，贴纸，说明书，肢体畸形，比例失调，画面扭曲，结构模糊，多余配件，低画质，粗糙纹理，阴影过重，反光刺眼，元素杂乱。&quot;, &quot;lastModel&quot;: &quot;gemini-3.1-flash-image&quot;, &quot;lastAspectRatio&quot;: &quot;1:1&quot;, &quot;subTaskCount&quot;: 1, &quot;subTasks&quot;: [{&quot;id&quot;: 190, &quot;subTaskNo&quot;: &quot;ST20260630977410&quot;, &quot;designTaskId&quot;: 97, &quot;model&quot;: &quot;gemini-3.1-flash-image&quot;, &quot;modelDisplayName&quot;: null, &quot;aspectRatio&quot;: &quot;1:1&quot;, &quot;resolution&quot;: &quot;1024x1024&quot;, &quot;enableText&quot;: false, &quot;imageTypeCounts&quot;: {&quot;main-image&quot;: 1, &quot;broad-image&quot;: 1}, &quot;imageTypeDisplay&quot;: null, &quot;status&quot;: 2, &quot;statusDesc&quot;: null, &quot;progress&quot;: 100, &quot;totalImages&quot;: 2, &quot;completedImages&quot;: 2, &quot;failedImages&quot;: 0, &quot;errorMsg&quot;: null, &quot;cost&quot;: 6.0, &quot;createTime&quot;: 1782806977623, &quot;generationTime&quot;: null, &quot;images&quot;: [{&quot;id&quot;: 393, &quot;subTaskId&quot;: 190, &quot;designTaskId&quot;: 97, &quot;imageType&quot;: &quot;main-image&quot;, &quot;imageTypeName&quot;: &quot;主图&quot;, &quot;imageUrl&quot;: &quot;https://ai-image-stage.oss-cn-shenzhen.aliyuncs.com/generated/190_main-image_20260630_161008_0.png&quot;, &quot;thumbnailUrl&quot;: null, &quot;fileName&quot;: &quot;main-image_0.png&quot;, &quot;status&quot;: 1, &quot;statusDesc&quot;: null, &quot;errorMsg&quot;: null, &quot;sort&quot;: 0, &quot;createTime&quot;: 1782807009079}, {&quot;id&quot;: 394, &quot;subTaskId&quot;: 190, &quot;designTaskId&quot;: 97, &quot;imageType&quot;: &quot;broad-image&quot;, &quot;imageTypeName&quot;: &quot;4宫格图&quot;, &quot;imageUrl&quot;: &quot;https://ai-image-stage.oss-cn-shenzhen.aliyuncs.com/generated/190_broad-image_20260630_161017_0.png&quot;, &quot;thumbnailUrl&quot;: null, &quot;fileName&quot;: &quot;broad-image_0.png&quot;, &quot;status&quot;: 1, &quot;statusDesc&quot;: null, &quot;errorMsg&quot;: null, &quot;sort&quot;: 1, &quot;createTime&quot;: 1782807017233}]}], &quot;subTaskSimpleList&quot;: [{&quot;id&quot;: 190, &quot;status&quot;: 2}], &quot;balance&quot;: 9356.0, &quot;modelOptions&quot;: [{&quot;value&quot;: &quot;gemini-3.1-flash-image&quot;, &quot;label&quot;: &quot;Nano Banana 2&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;gpt-image-2&quot;, &quot;label&quot;: &quot;GPT Image 2（中）&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;gpt-image-2-high&quot;, &quot;label&quot;: &quot;GPT Image 2（高）&quot;, &quot;description&quot;: &quot;&quot;}], &quot;aspectRatioOptions&quot;: [{&quot;value&quot;: &quot;5:4&quot;, &quot;label&quot;: &quot;5:4&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;9:16&quot;, &quot;label&quot;: &quot;9:16&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;4:5&quot;, &quot;label&quot;: &quot;4:5&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;3:4&quot;, &quot;label&quot;: &quot;3:4&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;16:9&quot;, &quot;label&quot;: &quot;16:9&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;1:1&quot;, &quot;label&quot;: &quot;1:1&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;2:3&quot;, &quot;label&quot;: &quot;2:3&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;3:2&quot;, &quot;label&quot;: &quot;3:2&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;4:3&quot;, &quot;label&quot;: &quot;4:3&quot;, &quot;description&quot;: &quot;&quot;}], &quot;resolutionOptions&quot;: [{&quot;value&quot;: &quot;1200x896&quot;, &quot;label&quot;: &quot;1200x896&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;896x1200&quot;, &quot;label&quot;: &quot;896x1200&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;1264x848&quot;, &quot;label&quot;: &quot;1264x848&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;848x1264&quot;, &quot;label&quot;: &quot;848x1264&quot;, &quot;description&quot;: &quot;&quot;}, {&quot;value&quot;: &quot;1024x1024&quot;, &quot;label&quot;: &quot;1024x1024&quot;, &quot;description&quot;: &quot;&quot;}], &quot;enableTextOptions&quot;: [{&quot;value&quot;: &quot;false&quot;, &quot;label&quot;: &quot;否&quot;, &quot;description&quot;: &quot;纯图片，不包含文字&quot;}, {&quot;value&quot;: &quot;true&quot;, &quot;label&quot;: &quot;是&quot;, &quot;description&quot;: &quot;图片带文案&quot;}], &quot;hasProcessingTask&quot;: false, &quot;processingSubTask&quot;: null, &quot;localPromptsByType&quot;: {&quot;main-image&quot;: &quot;正向：纯白背景（RGB 255,255,255），4对滴油耳饰彩色民族风耳坠居中排列，主体清晰，占画面约60%-70%；柔和漫射光从正面与侧上方45度打光，消除硬阴影，保留距产品边缘约5%的浅灰色柔和投影；高光点落在滴釉表面与金属连接处，突出彩色釉面光泽与金属质感，色彩还原真实饱和；产品结构完整，左右对称，无遮挡无变形。避免：任何文字、商标、LOGO；额外道具、装饰、模特或人物；背景出现灰色、米色或其他杂色；产品过曝、过暗、反光失真或色偏；多角度展示或角度倾斜过度；后期合成、水印或杂色颗粒。&quot;}, &quot;enableReferenceImage&quot;: true, &quot;dimensionData&quot;: null, &quot;referenceImagesByType&quot;: null, &quot;lastSelectedImageTypes&quot;: [&quot;main-image&quot;, &quot;broad-image&quot;], &quot;lastImageTypeCounts&quot;: {&quot;main-image&quot;: 1, &quot;broad-image&quot;: 1}, &quot;sellingConfig&quot;: {&quot;model&quot;: &quot;qwen3.7-plus&quot;, &quot;maxImages&quot;: 4, &quot;webSearchDefault&quot;: false, &quot;creditCost&quot;: 1}, &quot;aiWriteConfig&quot;: {&quot;globalCreditCost&quot;: 1, &quot;typeCreditCost&quot;: 1}}</pre>
+                        </div>
+                    </div>
+                    <p style="font-size:13px;color:var(--rep-muted);margin-top:10px">评判：画面质量与一致: 9.0 (通过) · 图片交付: 10.0 (通过)</p>
+                </div>
+            
+            </div>
+        
+
+        
+            <div class="rep-panel">
+                <h2 class="rep-section-title">生成图预览</h2>
+                <p style="color:var(--rep-muted);font-size:14px;margin-bottom:8px">
+                    共 1 条用例含图像产物（报告需与 artifacts 目录一并保存）。
+                </p>
+                <div class="rep-gallery">
+                <div class="rep-gallery-card">
+                    <img src="artifacts/images/case_0001_0.png" alt="case_0001">
+                    <div class="rep-gallery-meta">
+                        <strong>case_0001</strong><br>
+                        模式: image ·
+                        <span class="pass">通过</span><br>
+                        分: 9.3 · 图: 2 张
+                    </div>
+                </div>
+            </div>
+            </div>
+        
+
+        
+        
+        
+        
+        <footer class="rep-foot">
+            <p>由 LLM-QAuto 生成 · 2026-06-30 17:07:01</p>
+        </footer>
+    </div>
+</body>
+</html>

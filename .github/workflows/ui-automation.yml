@@ -1,0 +1,30 @@
+name: UI Automation (Playwright)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'ui_tests/**'
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        working-directory: ui_tests
+        run: npm ci || npm install
+      - name: Install Playwright browsers
+        working-directory: ui_tests
+        run: npx playwright install --with-deps
+      - name: Run tests
+        working-directory: ui_tests
+        run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: ui_tests/runs/latest-report/

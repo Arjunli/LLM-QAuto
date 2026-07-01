@@ -1,0 +1,140 @@
+platform:
+  name: 测试工作台
+  tagline: Skill 与 Web 同步的多功能测试平台
+
+modules:
+  - id: api_qc
+    name: API 质检
+    description: 从 cURL 创建 YAML，LLM 批量评判 API 输出（帮写 / Listing / 生图 / 通用）
+    enabled: true
+    skill_id: qauto-from-curl
+    web_path: /modules/api-qc
+    icon: api
+    default_section: assistant
+    card:
+      accent: teal
+      tag: LLM-QAuto 核心
+      features:
+        - 配置助手：cURL → YAML
+        - 帮写 / Listing / 生图场景
+        - 批量运行与 HTML 报告
+    sections:
+      - id: assistant
+        label: 配置助手
+      - id: projects
+        label: 测试项目
+      - id: runs
+        label: 测试运行
+      - id: examples
+        label: 示例配置
+
+  - id: case_design
+    name: 用例设计
+    description: 从 PRD / 验收标准生成测试树、用例表，支持导出与本地保存
+    enabled: true
+    skill_id: test-case-design
+    web_path: /modules/case-design
+    icon: cases
+    default_section: assistant
+    card:
+      accent: blue
+      tag: 需求 → 用例
+      features:
+        - 用例助手：多轮对话
+        - 评审图 + Mermaid 覆盖树
+        - 服务端保存与 CSV 导出
+    sections:
+      - id: assistant
+        label: 用例助手
+      - id: workspace
+        label: 快速生成
+      - id: sessions
+        label: 已保存
+
+  - id: ui_automation
+    name: UI 自动化
+    description: Playwright 脚本生成、本机执行与报告查看；可选 GitHub Actions CI
+    enabled: true
+    skill_id: ui-playwright
+    web_path: /modules/ui-auto
+    icon: browser
+    default_section: assistant
+    card:
+      accent: violet
+      tag: Playwright
+      features:
+        - 脚本助手：多轮对话
+        - 本机一键运行
+        - GitHub Actions CI 模板
+    sections:
+      - id: assistant
+        label: 脚本助手
+      - id: specs
+        label: 脚本管理
+      - id: runs
+        label: 运行记录
+      - id: ci
+        label: CI 模板
+
+  - id: api_contract
+    name: 接口契约
+    description: 从 OpenAPI / Swagger 生成契约测试清单与 pytest 骨架
+    enabled: true
+    skill_id: openapi-contract
+    web_path: /modules/api-contract
+    icon: contract
+    default_section: workspace
+    card:
+      accent: amber
+      tag: OpenAPI
+      features:
+        - Swagger → 契约矩阵
+        - pytest + httpx 骨架
+        - Web 快速生成与保存
+    sections:
+      - id: workspace
+        label: 快速生成
+      - id: sessions
+        label: 已保存
+
+  - id: perf_test
+    name: 性能测试
+    description: 从场景描述生成 k6 脚本与性能验收指标
+    enabled: true
+    skill_id: perf-k6
+    web_path: /modules/perf-test
+    icon: gauge
+    default_section: workspace
+    card:
+      accent: rose
+      tag: k6
+      features:
+        - 场景 → k6 脚本
+        - p95 / 错误率阈值
+        - 运行命令与保存
+    sections:
+      - id: workspace
+        label: 快速生成
+      - id: sessions
+        label: 已保存
+
+  - id: mock_data
+    name: Mock 造数
+    description: 从接口说明生成 Mock 清单与 FastAPI Mock 服务代码
+    enabled: true
+    skill_id: mock-data
+    web_path: /modules/mock-data
+    icon: mock
+    default_section: workspace
+    card:
+      accent: emerald
+      tag: Mock
+      features:
+        - Mock 清单与样例 JSON
+        - FastAPI mock 服务代码
+        - 联调 / 造数场景
+    sections:
+      - id: workspace
+        label: 快速生成
+      - id: sessions
+        label: 已保存

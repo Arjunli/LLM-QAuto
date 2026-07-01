@@ -1,0 +1,184 @@
+{
+  "run_id": "run_20260630_170642_image-gen-qc-batch_20260630_163123",
+  "project_name": "image-gen-qc-batch",
+  "start_time": "2026-06-30 17:06:42.079044",
+  "end_time": "2026-06-30 17:07:01.361880",
+  "status": "passed",
+  "total_cases": 1,
+  "passed_cases": 1,
+  "failed_cases": 0,
+  "pass_rate": 100.0,
+  "total_cost_usd": 0.0,
+  "dimension_stats": [
+    {
+      "dimension_id": "vision_quality",
+      "dimension_name": "画面质量与一致",
+      "total_cases": 1,
+      "passed_cases": 1,
+      "failed_cases": 0,
+      "pass_rate": 100.0,
+      "avg_score": 9.0,
+      "min_score": 9.0,
+      "max_score": 9.0,
+      "std_score": 0.0,
+      "category_distribution": [
+        {
+          "category": "图文一致性",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        },
+        {
+          "category": "画面质量",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        },
+        {
+          "category": "电商合规（无文字水印）",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        }
+      ],
+      "fail_reasons": {}
+    },
+    {
+      "dimension_id": "image_delivery",
+      "dimension_name": "图片交付",
+      "total_cases": 1,
+      "passed_cases": 1,
+      "failed_cases": 0,
+      "pass_rate": 100.0,
+      "avg_score": 10.0,
+      "min_score": 10.0,
+      "max_score": 10.0,
+      "std_score": 0.0,
+      "category_distribution": [
+        {
+          "category": "format_compliant",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        }
+      ],
+      "fail_reasons": {}
+    }
+  ],
+  "criteria_results": [
+    {
+      "criteria_id": "global_min_score",
+      "description": "全局平均分门槛",
+      "passed": true,
+      "actual_value": 9.3,
+      "expected_value": 6.0,
+      "details": "平均得分: 9.30"
+    },
+    {
+      "criteria_id": "vision_quality_min_avg",
+      "description": "画面质量与一致维度平均分",
+      "passed": true,
+      "actual_value": 9.0,
+      "expected_value": 6.0,
+      "details": "维度「画面质量与一致」平均得分: 9.00"
+    }
+  ],
+  "suite_meta": {
+    "name": "image-gen-qc-batch",
+    "version": "1.0.0",
+    "description": "image_gen 生图质检，校验卖点描述、全局提示词、专属微调指令对生成准确图片的帮助",
+    "created_at": "2026-06-30T16:31:23.317118",
+    "output_parser": {
+      "path": "data",
+      "keys": []
+    },
+    "dimension_display_names": {
+      "vision_quality": "画面质量与一致",
+      "image_delivery": "图片交付"
+    }
+  },
+  "aggregation_method": "weighted_average",
+  "cases": [
+    {
+      "case_id": "case_0001",
+      "passed": true,
+      "aggregated_score": 9.3,
+      "input_prompt": "97",
+      "input_variables": {
+        "designTaskId": "97"
+      },
+      "invoke_latency_ms": 765.0000001303852,
+      "output_error": null,
+      "content_mode": "image",
+      "output_char_count": 4373,
+      "output_preview": "{\"designTaskId\": 97, \"site\": \"美国\", \"sku\": \"202511LPJHS159-BXNSHLQCDCUS\", \"productName\": \"4对滴油耳饰彩色民族风耳坠\", \"sellingPoints\": [\"1、商品名称：4对装波西米亚复古滴油花朵耳坠（民族风水滴形耳环）\", \"2、核心卖点：\", \"- 浓郁的波西米亚民族风情，采用经典的水滴形轮廓搭配精致的滴油花朵图案，复古金属边框与绚丽色彩交织，为整体造型增添一抹异域浪漫与艺术气息。\", \"- 4对多色系组合套装，涵盖紫蓝、绿、蓝、棕等大地与冷色调，轻松匹配不同肤色与日常穿搭风格；轻盈的鱼钩式设计佩戴舒适，无负担感，满足全天候佩戴需求。\", \"- 细腻的滴油工艺结合中心水钻点缀，色彩饱满且富有光泽感，不易褪色；细节精致，在自然光下极具视觉吸引力，是度假拍照、社交媒体分享的绝佳配饰。\", \"3、适用人群：热爱波西米亚与复古民族风的女性、追求个性配饰的年轻女孩、度假与音乐节爱好者、寻找高性价比节日礼物的消费者。\", \"4、使用场景：日常休闲与通勤穿搭点缀、海滩度假与波西米亚风主题派对、户外音乐节与艺术展览、作为生日或节日（如圣诞节、情人节）的贴心礼物。\", \"5、规格参数：\", \"- 外观：水滴形/泪滴形设计，表面饰有滴油花卉图案及水钻镶嵌，搭配复古鱼钩式耳钩。\", \"- 配色：4组复古撞色（紫粉与蓝绿、浅绿与深绿、浅蓝与深蓝、米棕与橙棕），辅以古铜色或银色金属质感边框。\", \"- 配件：4对（共8只）滴油花朵耳坠。\"], \"productImages\": [\"https://ai-automation-stage.oss-cn-shenzhen.aliyuncs.com/8e7dada45d18ca6b7125d833e945609c8808fdc61e16183541bba461643afa90.png\"], \"dimensionImages\": null, \"lastPrompt\": \"正向提示词：专业单反相机微距拍摄，四对彩色民族风滴油耳饰整齐排列或模特局部佩戴，浅景深突出细节，柔和自然光配合立体光影，色彩鲜艳饱和，民族风格图案清晰，画面纯净无文字，干净背景，高质感珠宝展示。\\n反向提示词：文字，乱码，拼写错误，品牌Logo，水印，促销标签，价格标签，贴纸，说明书，肢体畸形，比例失调，画面扭曲，结构模糊，多余配件，低画质，粗糙纹理，阴影过重，反光刺眼，元素杂乱。\", \"lastModel\": \"gemini-3.1-flash-image\", \"lastAspectRatio\": \"1:1\", \"subTaskCount\": 1, \"subTasks\": [{\"id\": 190, \"subTaskNo\": \"ST20260630977410\", \"designTaskId\": 97, \"model\": \"gemini-3.1-flash-image\", \"modelDisplayName\": null, \"aspectRatio\": \"1:1\", \"resolution\": \"1024x1024\", \"enableText\": false, \"imageTypeCounts\": {\"main-image\": 1, \"broad-image\": 1}, \"imageTypeDisplay\": null, \"status\": 2, \"statusDesc\": null, \"progress\": 100, \"totalImages\": 2, \"completedImages\": 2, \"failedImages\": 0, \"errorMsg\": null, \"cost\": 6.0, \"createTime\": 1\n…[已截断]",
+      "media_count": 2,
+      "media_preview_paths": [
+        "images\\case_0001_0.png",
+        "images\\case_0001_1.png"
+      ],
+      "judgment_latency_ms_total": 16344.000000040978,
+      "failed_dimensions": [],
+      "dimensions": {
+        "vision_quality": {
+          "evaluator_type": "vision_llm",
+          "passed": true,
+          "score": 9.0,
+          "categories": [
+            "图文一致性",
+            "画面质量",
+            "电商合规（无文字水印）"
+          ],
+          "issues": [],
+          "evidence": "两张生成图（主图与4宫格图）均准确呈现4对彩色民族风滴油耳饰，符合波西米亚复古风格、水滴形轮廓、滴油花朵配水钻、多色系组合的产品描述；画面清晰、光影柔和、主体突出，无文字水印及违规元素，满足prompt及电商展示需求。",
+          "confidence": 0.8,
+          "judgment_time_ms": 16344.000000040978,
+          "metadata": {
+            "model": "gpt-4o",
+            "images_judged": 2
+          },
+          "evaluators_in_chain": 1
+        },
+        "image_delivery": {
+          "evaluator_type": "rule",
+          "passed": true,
+          "score": 10.0,
+          "categories": [
+            "format_compliant"
+          ],
+          "issues": [],
+          "evidence": "",
+          "confidence": 1.0,
+          "judgment_time_ms": 0.0,
+          "metadata": {
+            "rules_checked": 2
+          },
+          "evaluators_in_chain": 1
+        }
+      },
+      "output_parser_keys": [],
+      "parsed_fields": {},
+      "judge_excerpt": "{\"designTaskId\": 97, \"site\": \"美国\", \"sku\": \"202511LPJHS159-BXNSHLQCDCUS\", \"productName\": \"4对滴油耳饰彩色民族风耳坠\", \"sellingPoints\": [\"1、商品名称：4对装波西米亚复古滴油花朵耳坠（民族风水滴形耳环）\", \"2、核心卖点：\", \"- 浓郁的波西米亚民族风情，采用经典的水滴形轮廓搭配精致的滴油花朵图案，复古金属边框与绚丽色彩交织，为整体造型增添一抹异域浪漫与艺术气息。\", \"- 4对多色系组合套装，涵盖紫蓝、绿、蓝、棕等大地与冷色调，轻松匹配不同肤色与日常穿搭风格；轻盈的鱼钩式设计佩戴舒适，无负担感，满足全天候佩戴需求。\", \"- 细腻的滴油工艺结合中心水钻点缀，色彩饱满且富有光泽感，不易褪色；细节精致，在自然光下极具视觉吸引力，是度假拍照、社交媒体分享的绝佳配饰。\", \"3、适用人群：热爱波西米亚与复古民族风的女性、追求个性配饰的年轻女孩、度假与音乐节爱好者、寻找高性价比节日礼物的消费者。\", \"4、使用场景：日常休闲与通勤穿搭点缀、海滩度假与波西米亚风主题派对、户外音乐节与艺术展览、作为生日或节日（如圣诞节、情人节）的贴心礼物。\", \"5、规格参数：\", \"- 外观：水滴形/泪滴形设计，表面饰有滴油花卉图案及水钻镶嵌，搭配复古鱼钩式耳钩。\", \"- 配色：4组复古撞色（紫粉与蓝绿、浅绿与深绿、浅蓝与深蓝、米棕与橙棕），辅以古铜色或银色金属质感边框。\", \"- 配件：4对（共8只）滴油花朵耳坠。\"], \"productImages\": [\"https://ai-automation-stage.oss-cn-shenzhen.aliyuncs.com/8e7dada45d18ca6b7125d833e945609c8808fdc61e16183541bba461643afa90.png\"], \"dimensionImages\": null, \"lastPrompt\": \"正向提示词：专业单反相机微距拍摄，四对彩色民族风滴油耳饰整齐排列或模特局部佩戴，浅景深突出细节，柔和自然光配合立体光影，色彩鲜艳饱和，民族风格图案清晰，画面纯净无文字，干净背景，高质感珠宝展示。\\n反向提示词：文字，乱码，拼写错误，品牌Logo，水印，促销标签，价格标签，贴纸，说明书，肢体畸形，比例失调，画面扭曲，结构模糊，多余配件，低画质，粗糙纹理，阴影过重，反光刺眼，元素杂乱。\", \"lastModel\": \"gemini-3.1-flash-image\", \"lastAspectRatio\": \"1:1\", \"subTaskCount\": 1, \"subTasks\": [{\"id\": 190, \"subTaskNo\": \"ST20260630977410\", \"designTaskId\": 97, \"model\": \"gemini-3.1-flash-image\", \"modelDisplayName\": null, \"aspectRatio\": \"1:1\", \"resolution\": \"1024x1024\", \"enableText\": false, \"imageTypeCounts\": {\"main-image\": 1, \"broad-image\": 1}, \"imageTypeDisplay\": null, \"status\": 2, \"statusDesc\": null, \"progress\": 100, \"totalImages\": 2, \"completedImages\": 2, \"failedImages\": 0, \"errorMsg\": null, \"cost\": 6.0, \"createTime\": 1782806977623, \"generationTime\": null, \"images\": [{\"id\": 393, \"subTaskId\": 190, \"designTaskId\": 97, \"imageType\": \"main-image\", \"imageTypeName\": \"主图\", \"imageUrl\": \"https://ai-image-stage.oss-cn-shenzhen.aliyuncs.com/generated/190_main-image_20260630_161008_0.png\", \"thumbnailUrl\": null, \"fileName\": \"main-image_0.png\", \"status\": 1, \"statusDesc\": null, \"errorMsg\": null, \"sort\": 0, \"createTime\": 1782807009079}, {\"id\": 394, \"subTaskId\": 190, \"designTaskId\": 97, \"imageType\": \"broad-image\", \"imageTypeName\": \"4宫格图\", \"imageUrl\": \"https://ai-image-stage.oss-cn-shenzhen.aliyuncs.com/generated/190_broad-image_20260630_161017_0.png\", \"thumbnailUrl\": null, \"fileName\": \"broad-image_0.png\", \"status\": 1, \"statusDesc\": null, \"errorMsg\": null, \"sort\": 1, \"createTime\": 1782807017233}]}], \"subTaskSimpleList\": [{\"id\": 190, \"status\": 2}], \"balance\": 9356.0, \"modelOptions\": [{\"value\": \"gemini-3.1-flash-image\", \"label\": \"Nano Banana 2\", \"description\": \"\"}, {\"value\": \"gpt-image-2\", \"label\": \"GPT Image 2（中）\", \"description\": \"\"}, {\"value\": \"gpt-image-2-high\", \"label\": \"GPT Image 2（高）\", \"description\": \"\"}], \"aspectRatioOptions\": [{\"value\": \"5:4\", \"label\": \"5:4\", \"description\": \"\"}, {\"value\": \"9:16\", \"label\": \"9:16\", \"description\": \"\"}, {\"value\": \"4:5\", \"label\": \"4:5\", \"description\": \"\"}, {\"value\": \"3:4\", \"label\": \"3:4\", \"description\": \"\"}, {\"value\": \"16:9\", \"label\": \"16:9\", \"description\": \"\"}, {\"value\": \"1:1\", \"label\": \"1:1\", \"description\": \"\"}, {\"value\": \"2:3\", \"label\": \"2:3\", \"description\": \"\"}, {\"value\": \"3:2\", \"label\": \"3:2\", \"description\": \"\"}, {\"value\": \"4:3\", \"label\": \"4:3\", \"description\": \"\"}], \"resolutionOptions\": [{\"value\": \"1200x896\", \"label\": \"1200x896\", \"description\": \"\"}, {\"value\": \"896x1200\", \"label\": \"896x1200\", \"description\": \"\"}, {\"value\": \"1264x848\", \"label\": \"1264x848\", \"description\": \"\"}, {\"value\": \"848x1264\", \"label\": \"848x1264\", \"description\": \"\"}, {\"value\": \"1024x1024\", \"label\": \"1024x1024\", \"description\": \"\"}], \"enableTextOptions\": [{\"value\": \"false\", \"label\": \"否\", \"description\": \"纯图片，不包含文字\"}, {\"value\": \"true\", \"label\": \"是\", \"description\": \"图片带文案\"}], \"hasProcessingTask\": false, \"processingSubTask\": null, \"localPromptsByType\": {\"main-image\": \"正向：纯白背景（RGB 255,255,255），4对滴油耳饰彩色民族风耳坠居中排列，主体清晰，占画面约60%-70%；柔和漫射光从正面与侧上方45度打光，消除硬阴影，保留距产品边缘约5%的浅灰色柔和投影；高光点落在滴釉表面与金属连接处，突出彩色釉面光泽与金属质感，色彩还原真实饱和；产品结构完整，左右对称，无遮挡无变形。避免：任何文字、商标、LOGO；额外道具、装饰、模特或人物；背景出现灰色、米色或其他杂色；产品过曝、过暗、反光失真或色偏；多角度展示或角度倾斜过度；后期合成、水印或杂色颗粒。\"}, \"enableReferenceImage\": true, \"dimensionData\": null, \"referenceImagesByType\": null, \"lastSelectedImageTypes\": [\"main-image\", \"broad-image\"], \"lastImageTypeCounts\": {\"main-image\": 1, \"broad-image\": 1}, \"sellingConfig\": {\"model\": \"qwen3.7-plus\", \"maxImages\": 4, \"webSearchDefault\": false, \"creditCost\": 1}, \"aiWriteConfig\": {\"globalCreditCost\": 1, \"typeCreditCost\": 1}}",
+      "invoke_raw_preview": "{\"code\": 0, \"data\": {\"designTaskId\": 97, \"site\": \"美国\", \"sku\": \"202511LPJHS159-BXNSHLQCDCUS\", \"productName\": \"4对滴油耳饰彩色民族风耳坠\", \"sellingPoints\": [\"1、商品名称：4对装波西米亚复古滴油花朵耳坠（民族风水滴形耳环）\", \"2、核心卖点：\", \"- 浓郁的波西米亚民族风情，采用经典的水滴形轮廓搭配精致的滴油花朵图案，复古金属边框与绚丽色彩交织，为整体造型增添一抹异域浪漫与艺术气息。\", \"- 4对多色系组合套装，涵盖紫蓝、绿、蓝、棕等大地与冷色调，轻松匹配不同肤色与日常穿搭风格；轻盈的鱼钩式设计佩戴舒适，无负担感，满足全天候佩戴需求。\", \"- 细腻的滴油工艺结合中心水钻点缀，色彩饱满且富有光泽感，不易褪色；细节精致，在自然光下极具视觉吸引力，是度假拍照、社交媒体分享的绝佳配饰。\", \"3、适用人群：热爱波西米亚与复古民族风的女性、追求个性配饰的年轻女孩、度假与音乐节爱好者、寻找高性价比节日礼物的消费者。\", \"4、使用场景：日常休闲与通勤穿搭点缀、海滩度假与波西米亚风主题派对、户外音乐节与艺术展览、作为生日或节日（如圣诞节、情人节）的贴心礼物。\", \"5、规格参数：\", \"- 外观：水滴形/泪滴形设计，表面饰有滴油花卉图案及水钻镶嵌，搭配复古鱼钩式耳钩。\", \"- 配色：4组复古撞色（紫粉与蓝绿、浅绿与深绿、浅蓝与深蓝、米棕与橙棕），辅以古铜色或银色金属质感边框。\", \"- 配件：4对（共8只）滴油花朵耳坠。\"], \"productImages\": [\"https://ai-automation-stage.oss-cn-shenzhen.aliyuncs.com/8e7dada45d18ca6b7125d833e945609c8808fdc61e16183541bba461643afa90.png\"], \"dimensionImages\": null, \"lastPrompt\": \"正向提示词：专业单反相机微距拍摄，四对彩色民族风滴油耳饰整齐排列或模特局部佩戴，浅景深突出细节，柔和自然光配合立体光影，色彩鲜艳饱和，民族风格图案清晰，画面纯净无文字，干净背景，高质感珠宝展示。\\n反向提示词：文字，乱码，拼写错误，品牌Logo，水印，促销标签，价格标签，贴纸，说明书，肢体畸形，比例失调，画面扭曲，结构模糊，多余配件，低画质，粗糙纹理，阴影过重，反光刺眼，元素杂乱。\", \"lastModel\": \"gemini-3.1-flash-image\", \"lastAspectRatio\": \"1:1\", \"subTaskCount\": 1, \"subTasks\": [{\"id\": 190, \"subTaskNo\": \"ST20260630977410\", \"designTaskId\": 97, \"model\": \"gemini-3.1-flash-image\", \"modelDisplayName\": null, \"aspectRatio\": \"1:1\", \"resolution\": \"1024x1024\", \"enableText\": false, \"imageTypeCounts\": {\"main-image\": 1, \"broad-image\": 1}, \"imageTypeDisplay\": null, \"status\": 2, \"statusDesc\": null, \"progress\": 100, \"totalImages\": 2, \"completedImages\": 2, \"failedImages\": 0, \"errorMsg\": null, \"cost\": 6.0, \"createTime\": 1782806977623, \"generationTime\": null, \"images\": [{\"id\": 393, \"subTaskId\": 190, \"designTaskId\": 97, \"imageType\": \"main-image\", \"imageTypeName\": \"主图\", \"imageUrl\": \"https://ai-image-stage.oss-cn-shenzhen.aliyuncs.com/generated/190_main-image_20260630_161008_0.png\", \"thumbnailUrl\": null, \"fileName\": \"main-image_0.png\", \"status\": 1, \"statusDesc\": null, \"errorMsg\": null, \"sort\": 0, \"createTime\": 1782807009079}, {\"id\": 394, \"subTaskId\": 190, \"designTaskId\": 97, \"imageType\": \"broad-image\", \"imageTypeName\": \"4宫格图\", \"imageUrl\": \"https://ai-image-stage.oss-cn-shenzhen.aliyuncs.com/generated/190_broad-image_20260630_161017_0.png\", \"thumbnailUrl\": null, \"fileName\": \"broad-image_0.png\", \"status\": 1, \"statusDesc\": null, \"errorMsg\": null, \"sort\": 1, \"createTime\": 1782807017233}]}], \"subTaskSimpleList\": [{…"
+    }
+  ],
+  "failed_examples": [],
+  "disputed_cases": [],
+  "summary": "测试完成: 2/2项通过标准满足\n- 画面质量与一致: 通过率100.0%, 平均分9.00\n- 图片交付: 通过率100.0%, 平均分10.00\n",
+  "recommendations": [],
+  "abort_reason": null,
+  "artifacts_path": "web_results\\run_20260630_170642_image-gen-qc-batch_20260630_163123\\artifacts",
+  "ci_status": "pass"
+}

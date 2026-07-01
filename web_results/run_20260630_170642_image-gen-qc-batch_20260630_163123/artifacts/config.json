@@ -1,0 +1,144 @@
+{
+  "meta": {
+    "name": "image-gen-qc-batch",
+    "version": "1.0.0",
+    "description": "image_gen \u751f\u56fe\u8d28\u68c0\uff0c\u6821\u9a8c\u5356\u70b9\u63cf\u8ff0\u3001\u5168\u5c40\u63d0\u793a\u8bcd\u3001\u4e13\u5c5e\u5fae\u8c03\u6307\u4ee4\u5bf9\u751f\u6210\u51c6\u786e\u56fe\u7247\u7684\u5e2e\u52a9",
+    "created_at": "2026-06-30T16:31:23.317118"
+  },
+  "target": {
+    "type": "api",
+    "connector": {
+      "name": "httpx",
+      "config": {
+        "endpoint": "http://192.168.9.202:38080/admin-api/design/image-gen/init-data",
+        "method": "GET",
+        "headers": {
+          "Accept": "application/json, text/plain, */*",
+          "Accept-Language": "zh-CN,zh;q=0.9,zh-TW;q=0.8",
+          "Origin": "http://192.168.9.202:81",
+          "Referer": "http://192.168.9.202:81/",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+          "tenant-id": "1",
+          "Authorization": "Bearer b835243ac5564d9a9574736cc1a12fa0"
+        },
+        "timeout": 120,
+        "retry": 2,
+        "concurrency": 2
+      }
+    },
+    "input_formatter": {
+      "name": "json_payload",
+      "template": {
+        "designTaskId": "{{ input.variables.designTaskId }}"
+      }
+    },
+    "output_parser": {
+      "name": "json_extractor",
+      "path": "data",
+      "keys": null,
+      "content_mode": "image",
+      "media": {
+        "urls_path": "subTasks.0.images",
+        "url_path": null,
+        "b64_path": null,
+        "images_path": null,
+        "download": true,
+        "max_images": 4,
+        "timeout": 90.0
+      },
+      "custom_script": null
+    }
+  },
+  "data_generator": {
+    "strategy": "template_cartesian",
+    "variables": [
+      {
+        "name": "designTaskId",
+        "type": "enum",
+        "values": [
+          "97"
+        ],
+        "path": null,
+        "pool": null,
+        "count": null,
+        "min": null,
+        "max": null
+      }
+    ],
+    "sampling": {
+      "total": null,
+      "method": "uniform",
+      "deduplicate": true,
+      "seed": null
+    },
+    "prompt_template": "{{ vars.designTaskId }}",
+    "rows": []
+  },
+  "evaluation": {
+    "dimensions": [
+      {
+        "id": "vision_quality",
+        "name": "\u753b\u9762\u8d28\u91cf\u4e0e\u4e00\u81f4",
+        "description": "\u4f60\u662f\u89c6\u89c9\u8d28\u68c0\u5458\u3002\u6839\u636e\u5f85\u8bc4 prompt \u4e0e\u751f\u6210\u56fe\u7247\uff0c\u8bc4\u4f30\u56fe\u6587\u4e00\u81f4\u6027\u3001\u753b\u9762\u8d28\u91cf\u3001\u7535\u5546\u5408\u89c4\uff08\u65e0\u6587\u5b57\u6c34\u5370\uff09\u3002\n\n\u5f85\u8bc4 prompt / \u63a5\u53e3\u5b57\u6bb5\uff08\u542b lastPrompt\u3001productName \u7b49\uff09\uff1a\n{{ output }}\n\n\u8fd4\u56de JSON\uff1a{\"score\":0-10,\"categories\":[],\"issues\":[],\"evidence\":\"\"}",
+        "weight": 0.7,
+        "fail_fast": false,
+        "evaluators": [
+          {
+            "type": "vision_llm",
+            "name": "vision_judge",
+            "dimension_id": "vision_quality",
+            "model": "gpt-4o",
+            "prompt_template": "\u4f60\u662f\u89c6\u89c9\u8d28\u68c0\u5458\u3002\u6839\u636e\u5f85\u8bc4 prompt \u4e0e\u751f\u6210\u56fe\u7247\uff0c\u8bc4\u4f30\u56fe\u6587\u4e00\u81f4\u6027\u3001\u753b\u9762\u8d28\u91cf\u3001\u7535\u5546\u5408\u89c4\uff08\u65e0\u6587\u5b57\u6c34\u5370\uff09\u3002\n\n\u5f85\u8bc4 prompt / \u63a5\u53e3\u5b57\u6bb5\uff08\u542b lastPrompt\u3001productName \u7b49\uff09\uff1a\n{{ output }}\n\n\u8fd4\u56de JSON\uff1a{\"score\":0-10,\"categories\":[],\"issues\":[],\"evidence\":\"\"}",
+            "temperature": 0.1,
+            "max_tokens": 1800,
+            "max_images": 2
+          }
+        ]
+      },
+      {
+        "id": "image_delivery",
+        "name": "\u56fe\u7247\u4ea4\u4ed8",
+        "description": "",
+        "weight": 0.3,
+        "fail_fast": false,
+        "evaluators": [
+          {
+            "type": "image_rule",
+            "rules": [
+              {
+                "name": "\u81f3\u5c11\u4e00\u5f20\u56fe",
+                "condition": "media_count >= 1",
+                "severity": "error"
+              },
+              {
+                "name": "\u56fe\u7247\u843d\u76d8",
+                "condition": "all_images_ok",
+                "severity": "error"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "aggregation_method": "weighted_average",
+    "batch_llm": null
+  },
+  "pass_criteria": {
+    "global_criteria": {
+      "min_total_score": 6.0,
+      "min_dimension_coverage": 0.8
+    },
+    "dimensions": [
+      {
+        "id": "vision_quality",
+        "min_avg_score": 6.0,
+        "max_fail_rate": null,
+        "category_distribution": []
+      }
+    ],
+    "statistical": {
+      "confidence_level": 0.95,
+      "min_sample_size": 1
+    }
+  }
+}

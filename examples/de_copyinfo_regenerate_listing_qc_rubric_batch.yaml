@@ -1,0 +1,330 @@
+# copy-info/regenerate — 德国站 Listing 七维质检（单次全评 · CDQ V3 文案对齐）
+#
+# 评估框架对齐 Amazon CDQ V3 Enhanced 中「文案可评部分」：
+#   标题六子项(Ch5) · 关键词嵌入(Ch12) · Bullet 标准(Ch9) · COSMO 意图(Ch17)
+#   Rufus 可回答性(Ch20) · 风险消除(Ch18) · P0-P3 优先级(Ch10)
+# 不含：图片/A+/变体/库存/Review/BuyBox（被测 API 无这些字段）。
+#
+# 评委：evaluation.batch_llm — 1 次 LLM 调用返回七维分数，Listing 摘录只传 1 遍。
+# 使用前：ZHIYUAN_BEARER_TOKEN、TENANT_ID；评委 LLM 见 .env。
+#
+# 重要：POST regenerate 在 status=process 时通常只返回 {"code":0,"data":true}（异步受理），
+# 不会直接带 Listing。invoke_poll：受理后立即单次 GET（默认不额外等待；慢任务可设 max_wait_sec）。
+#
+meta:
+  name: de-copyinfo-regenerate-listing-qc-rubric-batch
+  version: "0.2.0-cdq"
+  description: "德国站 regenerate Listing 七维质检 — CDQ V3 文案对齐 · 单次全评"
+
+target:
+  type: api
+  connector:
+    name: httpx
+    config:
+      endpoint: https://api.40zhiyuan.com/admin-api/dev/copy-info/regenerate
+      method: POST
+      timeout: 200
+      retry: 2
+      concurrency: 2
+      # regenerate 返回 data:true 后立即 GET；生成慢时再加 max_wait_sec（秒）
+      # GET 与浏览器一致：/copy-info/get?id=<copyInfoId>，须 tenant-id + Bearer（见 .env）
+      # regenerate 返回 data:true 后服务端异步跑 workflow；立即 GET 时 title 常仍为空，需等待后再查一次（不轮询）
+      invoke_poll:
+        enabled: false
+        endpoint: "https://api.40zhiyuan.com/admin-api/dev/copy-info/get"
+        method: GET
+        query:
+          id: "{{ input.variables.id }}"
+        ready_path: data.title
+        timeout: 30
+      headers:
+        Authorization: "Bearer ${ZHIYUAN_BEARER_TOKEN}"
+        tenant-id: "${TENANT_ID}"
+        Referer: "https://40zhiyuan.com/"
+        Accept: "application/json, text/plain, */*"
+        Origin: "https://40zhiyuan.com"
+  input_formatter:
+    name: json_payload
+    template:
+      id: "{{ input.variables.id | int }}"
+      sku: "{{ input.variables.sku }}"
+      site: "{{ input.variables.site }}"
+      productName: "{{ input.variables.productName }}"
+      productType: pack
+      coreStrengths: ""
+      productParameters: "{{ input.variables.productParameters }}"
+      uploadedFiles: ""
+      status: "{{ input.variables.status }}"
+      language: "德语"
+      keywordRankings:
+        - keyword: Silikondeckel
+          ranking: 5613
+        - keyword: "Deckel für Joghurtbecher"
+          ranking: 9284
+        - keyword: Dosendeckel
+          ranking: 11963
+      competitorTraffics:
+        - keyword: dehnbar
+          weeklySearchVolume: null
+        - keyword: wiederverwendbare
+          weeklySearchVolume: null
+        - keyword: universal
+          weeklySearchVolume: null
+        - keyword: "dosen verschluss"
+          weeklySearchVolume: null
+        - keyword: schüsseln
+          weeklySearchVolume: null
+        - keyword: "food hüllen"
+          weeklySearchVolume: null
+        - keyword: quarkbecher
+          weeklySearchVolume: null
+      competitors:
+        - id: 8775
+          copyInfoId: 1914
+          asin: B0FPCJFGVC
+          competitorTitle: "Silikondeckel 3 * 3er Set Universal – Dehnbar & Wiederverwendbar"
+          competitorBullets: "（评委上下文已省略竞品长文，全评 prompt 不重复粘贴）"
+      copyLogId: null
+  output_parser:
+    name: json_extractor
+    path: "data"
+    keys:
+      - id
+      - sku
+      - site
+      - language
+      - productName
+      - productParameters
+      - dataCompleteness
+      - keywordRanking
+      - title
+      - titleTrans
+      - bulletPoints1
+      - bulletPoints2
+      - bulletPoints3
+      - bulletPoints4
+      - bulletPoints5
+      - bulletPointsTrans1
+      - bulletPointsTrans2
+      - bulletPointsTrans3
+      - bulletPointsTrans4
+      - bulletPointsTrans5
+      - description
+      - descriptionTrans
+      - searchTerms
+      - tag1
+      - tag2
+      - tag3
+      - tag4
+      - tag5
+
+data_generator:
+  strategy: template_cartesian
+  prompt_template: "{{ vars.sku }} / {{ vars.site }} / {{ vars.productName }} / {{ vars.status }}"
+  variables:
+    - name: id
+      type: enum
+      values: [1914]
+    - name: sku
+      type: enum
+      values: ["260406CHA12-BXG08PGFDE2"]
+    - name: site
+      type: enum
+      values: ["DE"]
+    - name: productName
+      type: enum
+      values: ["8个硅胶保鲜盖（绿色*4、黄色*4）"]
+    - name: productParameters
+      type: enum
+      values: ["绿色10cm、黄色6.5cm"]
+    - name: status
+      type: enum
+      values: ["process"]
+evaluation:
+  aggregation_method: weighted_average
+
+  # 单次全评：一次调用，返回 dimensions 下七个子对象
+  batch_llm:
+    model: gemini-3.1-pro-preview
+    temperature: 0.08
+    max_tokens: 5000
+    max_judge_input_chars: 14000
+    excerpt_mode: listing
+    use_cache: true
+    dimension_ids:
+      - fact_consistency
+      - keyword_strategy
+      - competitor_signal
+      - conversion_copy
+      - description_structure
+      - compliance_risk
+      - user_special_notes
+    prompt_template: |
+      你是亚马逊 DE 站 Listing 文案质检员。评估框架对齐 Amazon CDQ V3 Enhanced 的「文案可评部分」
+      （标题/Bullet/Description/searchTerms；不含图片、A+、变体、库存、Review）。
+      系统分制 0～10（10=该维 PM 满分）。硬门槛：事实一致性≥8.0、关键词策略≥7.2、合规≥8.0。
+
+      【CDQ 七维映射】
+      fact_consistency ↔ CDQ 结构化属性一致性(Ch4)
+      keyword_strategy ↔ CDQ 标题质量六子项(Ch5) + 关键词嵌入(Ch12)
+      competitor_signal ↔ CDQ 竞品信号 + 差异化排序(Ch9/Ch16)
+      conversion_copy ↔ CDQ Bullet 质量(Ch9) + COSMO 意图(Ch17)
+      description_structure ↔ Description 结构 + Rufus 可回答性(Ch20)
+      compliance_risk ↔ 信任证据与风险消除(Ch18)
+      user_special_notes ↔ 用户/运营特殊说明
+
+      【锚点】site={{ site }}，sku={{ sku }}，id={{ id }}
+      productName={{ productName }}
+      productParameters={{ productParameters }}
+
+      【待评 Listing 摘录】（JSON；含 keywordRanking 时解析为核心词/流量词清单）
+      {{ listing_excerpt }}
+
+      若摘录中 title 与全部 bulletPoints/description 均为 null 或空，各维 score=0，
+      categories 含 Missing Content，issues 说明「无 Listing 正文」。
+
+      【七维检查要点 — CDQ V3 细则】
+
+      1. fact_consistency（权重 20%）
+         - 数量/颜色/尺寸/材质/用途/适用对象与 productName、productParameters 一致
+         - title、5 条 bullets、description、searchTerms 之间规格不得互相矛盾
+         - 德语语法正确；DE 单位（cm、Stück、ml）；禁捏造 CE/FDA/Öko-Test 等未在锚点出现的认证
+         - 锚点有数量时 title 或 bullet#1 须可见数量（如 8 Stück / 8-teilig）
+
+      2. keyword_strategy（权重 25%）
+         CDQ 标题六子项（合入本维评分，不单列）：
+         a) 核心品类词：title 至少 1 次（来自 productName 或 keywordRanking 前列）
+         b) 规格/数量词：尺寸、件数、颜色等锚点信息在 title 体现
+         c) 功能/场景词：与用途相关的 2～4 个卖点，避免 7 段以上逗号堆砌
+         d) 标题长度：DE 推荐 150～200 字符；>200 明显扣分；<80 可能缺关键信息
+         e) 移动端前 80 字符：须含核心品类 + 数量或主规格（CDQ 可读性）
+         f) 关键词嵌入(Ch12)：核心词在 title≥1、bullets 合计≥2、description≥1；
+            keywordRanking JSON 中排名靠前的词至少 2 个出现在 title/bullets/description
+         - searchTerms/tag 仅作后端索引：不与 title/bullets 整句重复；禁关键词堆砌
+         - keyword_metrics 必填示例：
+           {"core_keywords":["..."],"title_char_count":0,"title_front80":"...",
+            "hits":{"title":0,"bullets":0,"description":0,"searchTerms":0},
+            "missing_keywords":["..."],"title_cdq_subscores":{"core_kw":0,"specs":0,"features":0,"length":0,"front80":0}}
+
+      3. competitor_signal（权重 15%）
+         - 吸收竞品标题/流量词中的有效买家任务，转化为 DE 站自然表达
+         - 差异化卖点（数量组合、尺寸、材质）应比竞品更清晰，非简单翻译
+         - 不抄袭竞品整句；不引入锚点未支持的高风险声明（绝对化、医疗/安全承诺）
+         - 若摘录无竞品上下文，按 keywordRanking + productName 推断品类最佳实践
+
+      4. conversion_copy（权重 15%）
+         CDQ Bullet 标准(Ch9)：
+         - 5 条均非空；每条建议 150～500 字符（过短<80 或过长>550 扣分）
+         - benefit-first：先买家利益/场景，后参数；禁空泛「hohe Qualität」「beste Wahl」
+         - 第 1～2 条为 mobile 预览区：最强差异化/核心卖点须前置（参考 CDQ WiFi/核心功能前置）
+         - 五条分工：①核心卖点 ②规格/材质 ③场景/兼容 ④使用/养护 ⑤包装/售后或配件说明
+         COSMO 意图(Ch17) 弱项扣分：
+         - 场景(Scenario)：是否覆盖具体使用场景（如 Kühlschrank、Joghurtbecher、Reste）
+         - 搭配(Companion)：是否提及常见搭配或「不含配件」提示
+
+      5. description_structure（权重 10%）
+         - 结构：首段价值主张 → 规格/机制 → 使用场景 → 包装/养护；禁止五点复读
+         - 段落可读：有换行或逻辑分段；德语正式但易懂
+         Rufus 可回答性(Ch20) — 按品类抽 5 问，可明确回答≥4 问满分：
+         ① 数量/尺寸？ ② 材质？ ③ 适用什么容器/场景？ ④ 能否微波/洗碗机（如适用）？
+         ⑤ 含哪些配件/不含什么？ ⑥ 如何清洁/保存？
+         rufus_score 必填：{"answerable":0-5,"total":5,"gaps":["..."]}
+
+      6. compliance_risk（权重 10%）
+         - 违禁：绝对化（100%、beste）、未验证医疗/食品安全声明、夸大耐用/保鲜效果
+         - 风险消除(Ch18)：「不包含」的配件/工具须在 bullets 或 description 醒目标注
+         - titleTrans/bulletPointsTrans/descriptionTrans 与德语正文语义一致（如有）
+         - 每条 issue 标注 risk_level：P0（虚假/违禁）| P1（误导/缺关键免责）| P2（可改进）| P3（微调）
+
+      7. user_special_notes（权重 5%）
+         - 锚点 productParameters 或业务特殊要求须在正文中体现
+         - 无特殊说明输入时 categories 含「无特殊说明」，给 7～8 分中性偏上
+
+      【综合评级 — 对齐 CDQ V3 等级(Ch15)】
+      加权分≥9.5→S，≥8.0→A，≥6.0→B，≥4.0→C，<4.0→D（仅文案维度，不含 OOS 等运营处罚）
+
+      只输出一个 JSON 对象，不要 markdown 代码块：
+      {
+        "dimensions": {
+          "fact_consistency": {"score":0-10,"categories":["..."],"issues":["..."],"evidence":""},
+          "keyword_strategy": {"score":0-10,"categories":["..."],"issues":[],"evidence":"","keyword_metrics":{}},
+          "competitor_signal": {"score":0-10,"categories":["..."],"issues":[],"evidence":""},
+          "conversion_copy": {"score":0-10,"categories":["..."],"issues":[],"evidence":"","cosmo_gaps":[]},
+          "description_structure": {"score":0-10,"categories":["..."],"issues":[],"evidence":"","rufus_score":{}},
+          "compliance_risk": {"score":0-10,"categories":["..."],"issues":[],"evidence":"","risk_items":[]},
+          "user_special_notes": {"score":0-10,"categories":["..."],"issues":[],"evidence":""}
+        },
+        "summary": {
+          "overall_comment":"一两句总评",
+          "cdq_text_grade":"S|A|B|C|D",
+          "weighted_score":0.0,
+          "risk_flags":[{"level":"P0|P1|P2|P3","issue":"","field":"title|bullet|description|searchTerms"}],
+          "top_optimizations":["P1 ...","P2 ..."]
+        }
+      }
+
+  # 维度仅保留权重/名称，供加权聚合与 pass_criteria；不配置 per-dimension llm
+  dimensions:
+    - id: fact_consistency
+      name: 事实一致性
+      description: "权重 20% · CDQ Ch4 结构化属性与锚点一致"
+      weight: 0.20
+      evaluators: []
+
+    - id: keyword_strategy
+      name: 关键词策略
+      description: "权重 25% · CDQ Ch5 标题六子项 + Ch12 关键词嵌入"
+      weight: 0.25
+      evaluators: []
+
+    - id: competitor_signal
+      name: 竞品信号利用
+      description: "权重 15% · CDQ Ch9/Ch16 差异化与竞品吸收"
+      weight: 0.15
+      evaluators: []
+
+    - id: conversion_copy
+      name: 转化文案质量
+      description: "权重 15% · CDQ Ch9 Bullet + Ch17 COSMO 意图"
+      weight: 0.15
+      evaluators: []
+
+    - id: description_structure
+      name: Description 结构
+      description: "权重 10% · 结构可读 + CDQ Ch20 Rufus 可回答性"
+      weight: 0.10
+      evaluators: []
+
+    - id: compliance_risk
+      name: 合规与风险提示
+      description: "权重 10% · CDQ Ch18 风险消除 · P0-P3 分级"
+      weight: 0.10
+      evaluators: []
+
+    - id: user_special_notes
+      name: 用户特殊说明
+      description: "权重 5% · 锚点特殊要求覆盖"
+      weight: 0.05
+      evaluators: []
+
+pass_criteria:
+  global_criteria:
+    min_total_score: 8.5
+  dimensions:
+    - id: fact_consistency
+      min_avg_score: 8.0
+    - id: keyword_strategy
+      min_avg_score: 7.2
+    - id: compliance_risk
+      min_avg_score: 8.0
+    - id: competitor_signal
+      min_avg_score: 7.0
+    - id: conversion_copy
+      min_avg_score: 7.0
+    - id: description_structure
+      min_avg_score: 7.0
+    - id: user_special_notes
+      min_avg_score: 6.0
+  statistical:
+    confidence_level: 0.95
+    min_sample_size: 1
