@@ -51,7 +51,7 @@ pass_criteria:
     min_sample_size: 5
 `;
 
-const DEFAULT_JUDGE_LLM_MODEL = "gemini-3.1-pro-preview";
+const DEFAULT_JUDGE_LLM_MODEL = "deepseek-v4-pro";
 
 const CONFIG_FORM_MODE_KEY = "llm_qauto_cfg_form_mode";
 const PROMPT_FIELD_PRESETS = ["query", "prompt", "message", "content", "text", "input"];

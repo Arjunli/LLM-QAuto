@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "name": "de-copyinfo-regenerate-listing-qc-rubric-batch",
+    "version": "0.2.0-cdq",
+    "description": "\u5fb7\u56fd\u7ad9 regenerate Listing \u4e03\u7ef4\u8d28\u68c0 \u2014 CDQ V3 \u6587\u6848\u5bf9\u9f50 \u00b7 \u5355\u6b21\u5168\u8bc4"
+  },
+  "target": {
+    "type": "api",
+    "connector": {
+      "name": "httpx",
+      "config": {
+        "endpoint": "http://192.168.9.202:38080/admin-api/dev/copy-info/get",
+        "method": "GET",
+        "timeout": 200,
+        "retry": 2,
+        "concurrency": 2,
+        "invoke_poll": {
+          "enabled": false,
+          "endpoint": "https://api.40zhiyuan.com/admin-api/dev/copy-info/get",
+          "method": "GET",
+          "query": {
+            "id": "{{ input.variables.id }}"
+          },
+          "ready_path": "data.title",
+          "timeout": 30
+        },
+        "headers": {
+          "Accept": "application/json, text/plain, */*",
+          "Accept-Language": "zh-CN,zh;q=0.9,zh-TW;q=0.8",
+          "Origin": "http://192.168.9.202:81",
+          "Referer": "http://192.168.9.202:81/",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+          "tenant-id": "100058",
+          "Authorization": "Bearer 8a215a3410254cae901d58f77db98e68"
+        }
+      }
+    },
+    "input_formatter": {
+      "name": "json_payload",
+      "template": {
+        "id": "{{ input.variables.id | int }}"
+      }
+    },
+    "output_parser": {
+      "name": "json_extractor",
+      "path": "data",
+      "keys": [
+        "id",
+        "sku",
+        "site",
+        "language",
+        "productName",
+        "productParameters",
+        "dataCompleteness",
+        "keywordRanking",
+        "title",
+        "titleTrans",
+        "bulletPoints1",
+        "bulletPoints2",
+        "bulletPoints3",
+        "bulletPoints4",
+        "bulletPoints5",
+        "bulletPointsTrans1",
+        "bulletPointsTrans2",
+        "bulletPointsTrans3",
+        "bulletPointsTrans4",
+        "bulletPointsTrans5",
+        "description",
+        "descriptionTrans",
+        "searchTerms",
+        "tag1",
+        "tag2",
+        "tag3",
+        "tag4",
+        "tag5"
+      ],
+      "content_mode": "auto",
+      "media": null,
+      "custom_script": null
+    }
+  },
+  "data_generator": {
+    "strategy": "template_cartesian",
+    "variables": [
+      {
+        "name": "id",
+        "type": "enum",
+        "values": [
+          "8045"
+        ],
+        "path": null,
+        "pool": null,
+        "count": null,
+        "min": null,
+        "max": null
+      }
+    ],
+    "sampling": {
+      "total": null,
+      "method": "uniform",
+      "deduplicate": true,
+      "seed": null
+    },
+    "prompt_template": "{{ vars.id }}",
+    "rows": []
+  },
+  "evaluation": {
+    "dimensions": [
+      {
+        "id": "fact_consistency",
+        "name": "\u4e8b\u5b9e\u4e00\u81f4\u6027",
+        "description": "\u6743\u91cd 20% \u00b7 CDQ Ch4 \u7ed3\u6784\u5316\u5c5e\u6027\u4e0e\u951a\u70b9\u4e00\u81f4",
+        "weight": 0.2,
+        "fail_fast": false,
+        "evaluators": []
+      },
+      {
+        "id": "keyword_strategy",
+        "name": "\u5173\u952e\u8bcd\u7b56\u7565",
+        "description": "\u6743\u91cd 25% \u00b7 CDQ Ch5 \u6807\u9898\u516d\u5b50\u9879 + Ch12 \u5173\u952e\u8bcd\u5d4c\u5165",
+        "weight": 0.25,
+        "fail_fast": false,
+        "evaluators": []
+      },
+      {
+        "id": "competitor_signal",
+        "name": "\u7ade\u54c1\u4fe1\u53f7\u5229\u7528",
+        "description": "\u6743\u91cd 15% \u00b7 CDQ Ch9/Ch16 \u5dee\u5f02\u5316\u4e0e\u7ade\u54c1\u5438\u6536",
+        "weight": 0.15,
+        "fail_fast": false,
+        "evaluators": []
+      },
+      {
+        "id": "conversion_copy",
+        "name": "\u8f6c\u5316\u6587\u6848\u8d28\u91cf",
+        "description": "\u6743\u91cd 15% \u00b7 CDQ Ch9 Bullet + Ch17 COSMO \u610f\u56fe",
+        "weight": 0.15,
+        "fail_fast": false,
+        "evaluators": []
+      },
+      {
+        "id": "description_structure",
+        "name": "Description \u7ed3\u6784",
+        "description": "\u6743\u91cd 10% \u00b7 \u7ed3\u6784\u53ef\u8bfb + CDQ Ch20 Rufus \u53ef\u56de\u7b54\u6027",
+        "weight": 0.1,
+        "fail_fast": false,
+        "evaluators": []
+      },
+      {
+        "id": "compliance_risk",
+        "name": "\u5408\u89c4\u4e0e\u98ce\u9669\u63d0\u793a",
+        "description": "\u6743\u91cd 10% \u00b7 CDQ Ch18 \u98ce\u9669\u6d88\u9664 \u00b7 P0-P3 \u5206\u7ea7",
+        "weight": 0.1,
+        "fail_fast": false,
+        "evaluators": []
+      },
+      {
+        "id": "user_special_notes",
+        "name": "\u7528\u6237\u7279\u6b8a\u8bf4\u660e",
+        "description": "\u6743\u91cd 5% \u00b7 \u951a\u70b9\u7279\u6b8a\u8981\u6c42\u8986\u76d6",
+        "weight": 0.05,
+        "fail_fast": false,
+        "evaluators": []
+      }
+    ],
+    "aggregation_method": "weighted_average",
+    "batch_llm": {
+      "model": "deepseek-v4-pro",
+      "temperature": 0.08,
+      "max_tokens": 5000,
+      "max_judge_input_chars": 14000,
+      "use_cache": true,
+      "dimension_ids": [
+        "fact_consistency",
+        "keyword_strategy",
+        "competitor_signal",
+        "conversion_copy",
+        "description_structure",
+        "compliance_risk",
+        "user_special_notes"
+      ],
+      "prompt_template": "\u4f60\u662f\u4e9a\u9a6c\u900a DE \u7ad9 Listing \u6587\u6848\u8d28\u68c0\u5458\u3002\u8bc4\u4f30\u6846\u67b6\u5bf9\u9f50 Amazon CDQ V3 Enhanced \u7684\u300c\u6587\u6848\u53ef\u8bc4\u90e8\u5206\u300d\n\uff08\u6807\u9898/Bullet/Description/searchTerms\uff1b\u4e0d\u542b\u56fe\u7247\u3001A+\u3001\u53d8\u4f53\u3001\u5e93\u5b58\u3001Review\uff09\u3002\n\u7cfb\u7edf\u5206\u5236 0\uff5e10\uff0810=\u8be5\u7ef4 PM \u6ee1\u5206\uff09\u3002\u786c\u95e8\u69db\uff1a\u4e8b\u5b9e\u4e00\u81f4\u6027\u22658.0\u3001\u5173\u952e\u8bcd\u7b56\u7565\u22657.2\u3001\u5408\u89c4\u22658.0\u3002\n\n\u3010CDQ \u4e03\u7ef4\u6620\u5c04\u3011\nfact_consistency \u2194 CDQ \u7ed3\u6784\u5316\u5c5e\u6027\u4e00\u81f4\u6027(Ch4)\nkeyword_strategy \u2194 CDQ \u6807\u9898\u8d28\u91cf\u516d\u5b50\u9879(Ch5) + \u5173\u952e\u8bcd\u5d4c\u5165(Ch12)\ncompetitor_signal \u2194 CDQ \u7ade\u54c1\u4fe1\u53f7 + \u5dee\u5f02\u5316\u6392\u5e8f(Ch9/Ch16)\nconversion_copy \u2194 CDQ Bullet \u8d28\u91cf(Ch9) + COSMO \u610f\u56fe(Ch17)\ndescription_structure \u2194 Description \u7ed3\u6784 + Rufus \u53ef\u56de\u7b54\u6027(Ch20)\ncompliance_risk \u2194 \u4fe1\u4efb\u8bc1\u636e\u4e0e\u98ce\u9669\u6d88\u9664(Ch18)\nuser_special_notes \u2194 \u7528\u6237/\u8fd0\u8425\u7279\u6b8a\u8bf4\u660e\n\n\u3010\u951a\u70b9\u3011site={{ site }}\uff0csku={{ sku }}\uff0cid={{ id }}\nproductName={{ productName }}\nproductParameters={{ productParameters }}\n\n\u3010\u5f85\u8bc4 Listing \u6458\u5f55\u3011\uff08JSON\uff1b\u542b keywordRanking \u65f6\u89e3\u6790\u4e3a\u6838\u5fc3\u8bcd/\u6d41\u91cf\u8bcd\u6e05\u5355\uff09\n{{ listing_excerpt }}\n\n\u82e5\u6458\u5f55\u4e2d title \u4e0e\u5168\u90e8 bulletPoints/description \u5747\u4e3a null \u6216\u7a7a\uff0c\u5404\u7ef4 score=0\uff0c\ncategories \u542b Missing Content\uff0cissues \u8bf4\u660e\u300c\u65e0 Listing \u6b63\u6587\u300d\u3002\n\n\u3010\u4e03\u7ef4\u68c0\u67e5\u8981\u70b9 \u2014 CDQ V3 \u7ec6\u5219\u3011\n\n1. fact_consistency\uff08\u6743\u91cd 20%\uff09\n   - \u6570\u91cf/\u989c\u8272/\u5c3a\u5bf8/\u6750\u8d28/\u7528\u9014/\u9002\u7528\u5bf9\u8c61\u4e0e productName\u3001productParameters \u4e00\u81f4\n   - title\u30015 \u6761 bullets\u3001description\u3001searchTerms \u4e4b\u95f4\u89c4\u683c\u4e0d\u5f97\u4e92\u76f8\u77db\u76fe\n   - \u5fb7\u8bed\u8bed\u6cd5\u6b63\u786e\uff1bDE \u5355\u4f4d\uff08cm\u3001St\u00fcck\u3001ml\uff09\uff1b\u7981\u634f\u9020 CE/FDA/\u00d6ko-Test \u7b49\u672a\u5728\u951a\u70b9\u51fa\u73b0\u7684\u8ba4\u8bc1\n   - \u951a\u70b9\u6709\u6570\u91cf\u65f6 title \u6216 bullet#1 \u987b\u53ef\u89c1\u6570\u91cf\uff08\u5982 8 St\u00fcck / 8-teilig\uff09\n\n2. keyword_strategy\uff08\u6743\u91cd 25%\uff09\n   CDQ \u6807\u9898\u516d\u5b50\u9879\uff08\u5408\u5165\u672c\u7ef4\u8bc4\u5206\uff0c\u4e0d\u5355\u5217\uff09\uff1a\n   a) \u6838\u5fc3\u54c1\u7c7b\u8bcd\uff1atitle \u81f3\u5c11 1 \u6b21\uff08\u6765\u81ea productName \u6216 keywordRanking \u524d\u5217\uff09\n   b) \u89c4\u683c/\u6570\u91cf\u8bcd\uff1a\u5c3a\u5bf8\u3001\u4ef6\u6570\u3001\u989c\u8272\u7b49\u951a\u70b9\u4fe1\u606f\u5728 title \u4f53\u73b0\n   c) \u529f\u80fd/\u573a\u666f\u8bcd\uff1a\u4e0e\u7528\u9014\u76f8\u5173\u7684 2\uff5e4 \u4e2a\u5356\u70b9\uff0c\u907f\u514d 7 \u6bb5\u4ee5\u4e0a\u9017\u53f7\u5806\u780c\n   d) \u6807\u9898\u957f\u5ea6\uff1aDE \u63a8\u8350 150\uff5e200 \u5b57\u7b26\uff1b>200 \u660e\u663e\u6263\u5206\uff1b<80 \u53ef\u80fd\u7f3a\u5173\u952e\u4fe1\u606f\n   e) \u79fb\u52a8\u7aef\u524d 80 \u5b57\u7b26\uff1a\u987b\u542b\u6838\u5fc3\u54c1\u7c7b + \u6570\u91cf\u6216\u4e3b\u89c4\u683c\uff08CDQ \u53ef\u8bfb\u6027\uff09\n   f) \u5173\u952e\u8bcd\u5d4c\u5165(Ch12)\uff1a\u6838\u5fc3\u8bcd\u5728 title\u22651\u3001bullets \u5408\u8ba1\u22652\u3001description\u22651\uff1b\n      keywordRanking JSON \u4e2d\u6392\u540d\u9760\u524d\u7684\u8bcd\u81f3\u5c11 2 \u4e2a\u51fa\u73b0\u5728 title/bullets/description\n   - searchTerms/tag \u4ec5\u4f5c\u540e\u7aef\u7d22\u5f15\uff1a\u4e0d\u4e0e title/bullets \u6574\u53e5\u91cd\u590d\uff1b\u7981\u5173\u952e\u8bcd\u5806\u780c\n   - keyword_metrics \u5fc5\u586b\u793a\u4f8b\uff1a\n     {\"core_keywords\":[\"...\"],\"title_char_count\":0,\"title_front80\":\"...\",\n      \"hits\":{\"title\":0,\"bullets\":0,\"description\":0,\"searchTerms\":0},\n      \"missing_keywords\":[\"...\"],\"title_cdq_subscores\":{\"core_kw\":0,\"specs\":0,\"features\":0,\"length\":0,\"front80\":0}}\n\n3. competitor_signal\uff08\u6743\u91cd 15%\uff09\n   - \u5438\u6536\u7ade\u54c1\u6807\u9898/\u6d41\u91cf\u8bcd\u4e2d\u7684\u6709\u6548\u4e70\u5bb6\u4efb\u52a1\uff0c\u8f6c\u5316\u4e3a DE \u7ad9\u81ea\u7136\u8868\u8fbe\n   - \u5dee\u5f02\u5316\u5356\u70b9\uff08\u6570\u91cf\u7ec4\u5408\u3001\u5c3a\u5bf8\u3001\u6750\u8d28\uff09\u5e94\u6bd4\u7ade\u54c1\u66f4\u6e05\u6670\uff0c\u975e\u7b80\u5355\u7ffb\u8bd1\n   - \u4e0d\u6284\u88ad\u7ade\u54c1\u6574\u53e5\uff1b\u4e0d\u5f15\u5165\u951a\u70b9\u672a\u652f\u6301\u7684\u9ad8\u98ce\u9669\u58f0\u660e\uff08\u7edd\u5bf9\u5316\u3001\u533b\u7597/\u5b89\u5168\u627f\u8bfa\uff09\n   - \u82e5\u6458\u5f55\u65e0\u7ade\u54c1\u4e0a\u4e0b\u6587\uff0c\u6309 keywordRanking + productName \u63a8\u65ad\u54c1\u7c7b\u6700\u4f73\u5b9e\u8df5\n\n4. conversion_copy\uff08\u6743\u91cd 15%\uff09\n   CDQ Bullet \u6807\u51c6(Ch9)\uff1a\n   - 5 \u6761\u5747\u975e\u7a7a\uff1b\u6bcf\u6761\u5efa\u8bae 150\uff5e500 \u5b57\u7b26\uff08\u8fc7\u77ed<80 \u6216\u8fc7\u957f>550 \u6263\u5206\uff09\n   - benefit-first\uff1a\u5148\u4e70\u5bb6\u5229\u76ca/\u573a\u666f\uff0c\u540e\u53c2\u6570\uff1b\u7981\u7a7a\u6cdb\u300chohe Qualit\u00e4t\u300d\u300cbeste Wahl\u300d\n   - \u7b2c 1\uff5e2 \u6761\u4e3a mobile \u9884\u89c8\u533a\uff1a\u6700\u5f3a\u5dee\u5f02\u5316/\u6838\u5fc3\u5356\u70b9\u987b\u524d\u7f6e\uff08\u53c2\u8003 CDQ WiFi/\u6838\u5fc3\u529f\u80fd\u524d\u7f6e\uff09\n   - \u4e94\u6761\u5206\u5de5\uff1a\u2460\u6838\u5fc3\u5356\u70b9 \u2461\u89c4\u683c/\u6750\u8d28 \u2462\u573a\u666f/\u517c\u5bb9 \u2463\u4f7f\u7528/\u517b\u62a4 \u2464\u5305\u88c5/\u552e\u540e\u6216\u914d\u4ef6\u8bf4\u660e\n   COSMO \u610f\u56fe(Ch17) \u5f31\u9879\u6263\u5206\uff1a\n   - \u573a\u666f(Scenario)\uff1a\u662f\u5426\u8986\u76d6\u5177\u4f53\u4f7f\u7528\u573a\u666f\uff08\u5982 K\u00fchlschrank\u3001Joghurtbecher\u3001Reste\uff09\n   - \u642d\u914d(Companion)\uff1a\u662f\u5426\u63d0\u53ca\u5e38\u89c1\u642d\u914d\u6216\u300c\u4e0d\u542b\u914d\u4ef6\u300d\u63d0\u793a\n\n5. description_structure\uff08\u6743\u91cd 10%\uff09\n   - \u7ed3\u6784\uff1a\u9996\u6bb5\u4ef7\u503c\u4e3b\u5f20 \u2192 \u89c4\u683c/\u673a\u5236 \u2192 \u4f7f\u7528\u573a\u666f \u2192 \u5305\u88c5/\u517b\u62a4\uff1b\u7981\u6b62\u4e94\u70b9\u590d\u8bfb\n   - \u6bb5\u843d\u53ef\u8bfb\uff1a\u6709\u6362\u884c\u6216\u903b\u8f91\u5206\u6bb5\uff1b\u5fb7\u8bed\u6b63\u5f0f\u4f46\u6613\u61c2\n   Rufus \u53ef\u56de\u7b54\u6027(Ch20) \u2014 \u6309\u54c1\u7c7b\u62bd 5 \u95ee\uff0c\u53ef\u660e\u786e\u56de\u7b54\u22654 \u95ee\u6ee1\u5206\uff1a\n   \u2460 \u6570\u91cf/\u5c3a\u5bf8\uff1f \u2461 \u6750\u8d28\uff1f \u2462 \u9002\u7528\u4ec0\u4e48\u5bb9\u5668/\u573a\u666f\uff1f \u2463 \u80fd\u5426\u5fae\u6ce2/\u6d17\u7897\u673a\uff08\u5982\u9002\u7528\uff09\uff1f\n   \u2464 \u542b\u54ea\u4e9b\u914d\u4ef6/\u4e0d\u542b\u4ec0\u4e48\uff1f \u2465 \u5982\u4f55\u6e05\u6d01/\u4fdd\u5b58\uff1f\n   rufus_score \u5fc5\u586b\uff1a{\"answerable\":0-5,\"total\":5,\"gaps\":[\"...\"]}\n\n6. compliance_risk\uff08\u6743\u91cd 10%\uff09\n   - \u8fdd\u7981\uff1a\u7edd\u5bf9\u5316\uff08100%\u3001beste\uff09\u3001\u672a\u9a8c\u8bc1\u533b\u7597/\u98df\u54c1\u5b89\u5168\u58f0\u660e\u3001\u5938\u5927\u8010\u7528/\u4fdd\u9c9c\u6548\u679c\n   - \u98ce\u9669\u6d88\u9664(Ch18)\uff1a\u300c\u4e0d\u5305\u542b\u300d\u7684\u914d\u4ef6/\u5de5\u5177\u987b\u5728 bullets \u6216 description \u9192\u76ee\u6807\u6ce8\n   - titleTrans/bulletPointsTrans/descriptionTrans \u4e0e\u5fb7\u8bed\u6b63\u6587\u8bed\u4e49\u4e00\u81f4\uff08\u5982\u6709\uff09\n   - \u6bcf\u6761 issue \u6807\u6ce8 risk_level\uff1aP0\uff08\u865a\u5047/\u8fdd\u7981\uff09| P1\uff08\u8bef\u5bfc/\u7f3a\u5173\u952e\u514d\u8d23\uff09| P2\uff08\u53ef\u6539\u8fdb\uff09| P3\uff08\u5fae\u8c03\uff09\n\n7. user_special_notes\uff08\u6743\u91cd 5%\uff09\n   - \u951a\u70b9 productParameters \u6216\u4e1a\u52a1\u7279\u6b8a\u8981\u6c42\u987b\u5728\u6b63\u6587\u4e2d\u4f53\u73b0\n   - \u65e0\u7279\u6b8a\u8bf4\u660e\u8f93\u5165\u65f6 categories \u542b\u300c\u65e0\u7279\u6b8a\u8bf4\u660e\u300d\uff0c\u7ed9 7\uff5e8 \u5206\u4e2d\u6027\u504f\u4e0a\n\n\u3010\u7efc\u5408\u8bc4\u7ea7 \u2014 \u5bf9\u9f50 CDQ V3 \u7b49\u7ea7(Ch15)\u3011\n\u52a0\u6743\u5206\u22659.5\u2192S\uff0c\u22658.0\u2192A\uff0c\u22656.0\u2192B\uff0c\u22654.0\u2192C\uff0c<4.0\u2192D\uff08\u4ec5\u6587\u6848\u7ef4\u5ea6\uff0c\u4e0d\u542b OOS \u7b49\u8fd0\u8425\u5904\u7f5a\uff09\n\n\u53ea\u8f93\u51fa\u4e00\u4e2a JSON \u5bf9\u8c61\uff0c\u4e0d\u8981 markdown \u4ee3\u7801\u5757\uff1a\n{\n  \"dimensions\": {\n    \"fact_consistency\": {\"score\":0-10,\"categories\":[\"...\"],\"issues\":[\"...\"],\"evidence\":\"\"},\n    \"keyword_strategy\": {\"score\":0-10,\"categories\":[\"...\"],\"issues\":[],\"evidence\":\"\",\"keyword_metrics\":{}},\n    \"competitor_signal\": {\"score\":0-10,\"categories\":[\"...\"],\"issues\":[],\"evidence\":\"\"},\n    \"conversion_copy\": {\"score\":0-10,\"categories\":[\"...\"],\"issues\":[],\"evidence\":\"\",\"cosmo_gaps\":[]},\n    \"description_structure\": {\"score\":0-10,\"categories\":[\"...\"],\"issues\":[],\"evidence\":\"\",\"rufus_score\":{}},\n    \"compliance_risk\": {\"score\":0-10,\"categories\":[\"...\"],\"issues\":[],\"evidence\":\"\",\"risk_items\":[]},\n    \"user_special_notes\": {\"score\":0-10,\"categories\":[\"...\"],\"issues\":[],\"evidence\":\"\"}\n  },\n  \"summary\": {\n    \"overall_comment\":\"\u4e00\u4e24\u53e5\u603b\u8bc4\",\n    \"cdq_text_grade\":\"S|A|B|C|D\",\n    \"weighted_score\":0.0,\n    \"risk_flags\":[{\"level\":\"P0|P1|P2|P3\",\"issue\":\"\",\"field\":\"title|bullet|description|searchTerms\"}],\n    \"top_optimizations\":[\"P1 ...\",\"P2 ...\"]\n  }\n}\n",
+      "excerpt_mode": "listing"
+    }
+  },
+  "pass_criteria": {
+    "global_criteria": {
+      "min_total_score": 8.5,
+      "min_dimension_coverage": 0.8
+    },
+    "dimensions": [
+      {
+        "id": "fact_consistency",
+        "min_avg_score": 8.0,
+        "max_fail_rate": null,
+        "category_distribution": []
+      },
+      {
+        "id": "keyword_strategy",
+        "min_avg_score": 7.2,
+        "max_fail_rate": null,
+        "category_distribution": []
+      },
+      {
+        "id": "compliance_risk",
+        "min_avg_score": 8.0,
+        "max_fail_rate": null,
+        "category_distribution": []
+      },
+      {
+        "id": "competitor_signal",
+        "min_avg_score": 7.0,
+        "max_fail_rate": null,
+        "category_distribution": []
+      },
+      {
+        "id": "conversion_copy",
+        "min_avg_score": 7.0,
+        "max_fail_rate": null,
+        "category_distribution": []
+      },
+      {
+        "id": "description_structure",
+        "min_avg_score": 7.0,
+        "max_fail_rate": null,
+        "category_distribution": []
+      },
+      {
+        "id": "user_special_notes",
+        "min_avg_score": 6.0,
+        "max_fail_rate": null,
+        "category_distribution": []
+      }
+    ],
+    "statistical": {
+      "confidence_level": 0.95,
+      "min_sample_size": 1
+    }
+  }
+}

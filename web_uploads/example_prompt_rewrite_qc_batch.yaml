@@ -1,0 +1,143 @@
+meta:
+  name: prompt-rewrite-qc-batch
+  version: 1.0.0
+  description: AI 帮写 Prompt 优化 L1 文本质检 — 意图保真 / 正反向解耦 / 合规
+target:
+  type: api
+  connector:
+    name: httpx
+    config:
+      endpoint: https://api.example.com/admin-api/dev/your-prompt-rewrite-api
+      method: POST
+      timeout: 120
+      retry: 2
+      concurrency: 2
+      headers:
+        Authorization: Bearer ${ZHIYUAN_BEARER_TOKEN}
+        tenant-id: ${TENANT_ID}
+  input_formatter:
+    name: json_payload
+    template:
+      id: '{{ input.variables.id | int }}'
+      rawPrompt: '{{ input.variables.rawPrompt }}'
+      imageType: '{{ input.variables.imageType }}'
+      site: '{{ input.variables.site }}'
+  output_parser:
+    name: json_extractor
+    path: data
+data_generator:
+  strategy: template_cartesian
+  prompt_template: '{{ vars.id }}'
+  variables:
+    - name: id
+      type: enum
+      values:
+        - '8001'
+    - name: rawPrompt
+      type: enum
+      values:
+        - 要欧美模特
+        - 不要文字
+        - 产品小一点
+    - name: imageType
+      type: enum
+      values:
+        - 场景图
+    - name: site
+      type: enum
+      values:
+        - DE
+  sampling: {}
+evaluation:
+  aggregation_method: weighted_average
+  batch_llm:
+    model: deepseek-v4-pro
+    temperature: 0.08
+    max_tokens: 4000
+    max_judge_input_chars: 14000
+    use_cache: true
+    dimension_ids:
+      - intent_fidelity
+      - pos_neg_decouple
+      - format_compliance
+      - professional_rewrite
+      - compliance_coverage
+      - no_hallucination
+    prompt_template: >-
+      你是内容质检员。请根据接口返回，一次性完成下列全部维度的评分（0～10）。
+
+
+      【各维检查要点】
+
+      1. intent_fidelity（意图保真，权重 0.25）：意图保真
+
+      2. pos_neg_decouple（正反向解耦，权重 0.2）：正反向解耦
+
+      3. format_compliance（格式规范，权重 0.1）：格式规范
+
+      4. professional_rewrite（专业化改写，权重 0.15）：专业化改写
+
+      5. compliance_coverage（电商合规，权重 0.15）：电商合规
+
+      6. no_hallucination（无臆造，权重 0.15）：无臆造
+
+
+      【待评接口返回】（已按配置截取，可能是 JSON 或纯文本）
+
+      {{ output }}
+
+
+      只输出一个 JSON 对象（不要 markdown 代码块）：
+
+      {"dimensions":{"intent_fidelity":{"score":0-10,"categories":[],"issues":[],"evidence":""},"pos_neg_decouple":{"score":0-10,"categories":[],"issues":[],"evidence":""},"format_compliance":{"score":0-10,"categories":[],"issues":[],"evidence":""},"professional_rewrite":{"score":0-10,"categories":[],"issues":[],"evidence":""},"compliance_coverage":{"score":0-10,"categories":[],"issues":[],"evidence":""},"no_hallucination":{"score":0-10,"categories":[],"issues":[],"evidence":""}},"summary":{"overall_comment":"","risk_flags":[]}}
+  dimensions:
+    - id: intent_fidelity
+      name: 意图保真
+      description: ''
+      weight: 0.25
+      fail_fast: false
+      evaluators: []
+    - id: pos_neg_decouple
+      name: 正反向解耦
+      description: ''
+      weight: 0.2
+      fail_fast: false
+      evaluators: []
+    - id: format_compliance
+      name: 格式规范
+      description: ''
+      weight: 0.1
+      fail_fast: false
+      evaluators: []
+    - id: professional_rewrite
+      name: 专业化改写
+      description: ''
+      weight: 0.15
+      fail_fast: false
+      evaluators: []
+    - id: compliance_coverage
+      name: 电商合规
+      description: ''
+      weight: 0.15
+      fail_fast: false
+      evaluators: []
+    - id: no_hallucination
+      name: 无臆造
+      description: ''
+      weight: 0.15
+      fail_fast: false
+      evaluators: []
+pass_criteria:
+  global_criteria:
+    min_total_score: 7
+  dimensions:
+    - id: intent_fidelity
+      min_avg_score: 8
+      category_distribution: []
+    - id: no_hallucination
+      min_avg_score: 8
+    - id: pos_neg_decouple
+      min_avg_score: 7.5
+  statistical:
+    confidence_level: 0.95
+    min_sample_size: 1

@@ -78,9 +78,12 @@ function setApiStatus(message, kind = "info", detail = "") {
 
 /**
  * 带界面提示的 fetch
+ * @param {string} url
+ * @param {object} options - fetch options + { silent?: boolean } 轮询类请求设 true 跳过 toast
  * @returns {{ response: Response, data: any } | { error: Error, response?: Response }}
  */
 async function apiFetch(url, options = {}) {
+    const silent = options && options.silent;
     const method = (options.method || "GET").toUpperCase();
     const started = performance.now();
     const label = `${method} ${url}`;
@@ -92,6 +95,9 @@ async function apiFetch(url, options = {}) {
     } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
         setApiStatus(`网络错误: ${label}`, "err", msg);
+        if (!silent && typeof showToast === "function") {
+            showToast(`网络错误：${msg}`, "error");
+        }
         throw e;
     }
 
@@ -107,6 +113,9 @@ async function apiFetch(url, options = {}) {
         }
     } catch (e) {
         setApiStatus(`解析响应失败: ${label}`, "err", response.status + " " + response.statusText);
+        if (!silent && typeof showToast === "function") {
+            showToast(`解析响应失败：${response.status}`, "error");
+        }
         throw e;
     }
 
@@ -122,6 +131,9 @@ async function apiFetch(url, options = {}) {
               ? data.slice(0, 200)
               : response.statusText;
     setApiStatus(`失败 ${response.status} ${label} (${ms}ms)`, "err", detail);
+    if (!silent && typeof showToast === "function") {
+        showToast(`请求失败 ${response.status}：${detail}`, "error");
+    }
     const err = new Error(detail);
     err.response = response;
     err.data = data;
@@ -187,7 +199,7 @@ async function loadStats() {
     const statsBar = document.getElementById("stats-bar");
     if (!statsBar || statsBar.style.display === "none") return;
     try {
-        const { data } = await apiFetch("/api/stats");
+        const { data } = await apiFetch("/api/stats", { silent: true });
         const rate = Number(data.success_rate ?? 0);
         document.getElementById("stat-projects").textContent = data.total_projects ?? 0;
         document.getElementById("stat-tests").textContent = data.total_tests ?? 0;
@@ -241,7 +253,8 @@ async function loadProjects() {
         typeof renderModulePageHead === "function"
             ? renderModulePageHead("测试项目", "管理 YAML 套件，创建后可在本页或「测试运行」中发起批量评判。", "")
             : '<div class="section-title">测试项目</div>';
-    content.innerHTML = `<div class="module-page">${head}<div class="module-page-body project-list" id="project-list">加载中…</div></div>`;
+    const _skeleton = (typeof skeletonProjectCards === "function") ? skeletonProjectCards(4) : "加载中…";
+    content.innerHTML = `<div class="module-page">${head}<div class="module-page-body project-list" id="project-list">${_skeleton}</div></div>`;
 
     try {
         const { data } = await apiFetch("/api/projects");
@@ -1179,7 +1192,7 @@ async function loadRuns() {
 ${head}
 <div class="module-page-body runs-layout" id="runs-layout">
             <div class="runs-col-list" id="runs-col-list">
-                <div class="run-list" id="run-list">加载中…</div>
+                <div class="run-list" id="run-list">${(typeof skeletonRows === "function") ? skeletonRows(4) : "加载中…"}</div>
             </div>
             <button type="button" class="runs-splitter" id="runs-splitter" aria-label="拖动调整左侧列表宽度" title="左右拖动调整宽度"></button>
             <div class="run-detail-panel" id="run-detail">
@@ -1554,7 +1567,8 @@ async function loadExamples() {
         typeof renderModulePageHead === "function"
             ? renderModulePageHead("示例配置", "从仓库内置 YAML 模板快速体验，可直接运行或复制修改。", "")
             : '<div class="section-title">示例配置</div>';
-    content.innerHTML = `<div class="module-page">${head}<div class="module-page-body project-list" id="example-list">加载中…</div></div>`;
+    const _exSkeleton = (typeof skeletonProjectCards === "function") ? skeletonProjectCards(3) : "加载中…";
+    content.innerHTML = `<div class="module-page">${head}<div class="module-page-body project-list" id="example-list">${_exSkeleton}</div></div>`;
 
     try {
         const { data } = await apiFetch("/api/projects");
@@ -1709,10 +1723,12 @@ async function createProject() {
         if (data.success) {
             hideModal("create-modal");
             showSection("projects");
-            alert("项目创建成功！");
+            if (typeof showToast === "function") showToast("项目创建成功", "success");
+            else alert("项目创建成功！");
         }
     } catch (e) {
-        alert("创建失败: " + e.message);
+        if (typeof showToast === "function") showToast("创建失败：" + e.message, "error");
+        else alert("创建失败: " + e.message);
     }
 }
 
@@ -1726,8 +1742,10 @@ async function deleteProject(projectId) {
         }
         loadProjects();
         loadStats();
+        if (typeof showToast === "function") showToast("项目已删除", "success");
     } catch (e) {
-        alert("删除失败: " + e.message);
+        if (typeof showToast === "function") showToast("删除失败：" + e.message, "error");
+        else alert("删除失败: " + e.message);
     }
 }
 

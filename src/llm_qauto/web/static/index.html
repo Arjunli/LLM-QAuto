@@ -4585,6 +4585,234 @@
             background: var(--surface-2);
             border-color: var(--border);
         }
+
+        /* ============ UI 增强：暗色模式 / Toast / 骨架屏 / 快捷键帮助 ============ */
+
+        /* —— 暗色模式 —— */
+        body.theme-dark {
+            --bg: #0b1120;
+            --bg-accent: radial-gradient(ellipse 120% 80% at 10% -20%, rgba(13, 148, 136, 0.14), transparent 55%),
+                radial-gradient(ellipse 90% 60% at 95% 0%, rgba(59, 130, 246, 0.1), transparent 50%),
+                #0b1120;
+            --surface: #0f172a;
+            --surface-2: #1e293b;
+            --border: #334155;
+            --border-strong: #475569;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-muted: rgba(13, 148, 136, 0.16);
+            --accent-glow: rgba(13, 148, 136, 0.4);
+            --danger-bg: rgba(220, 38, 38, 0.14);
+            --sidebar: linear-gradient(180deg, #020617 0%, #0b1120 100%);
+            --sidebar-hover: rgba(255, 255, 255, 0.07);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.25);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        body.theme-dark .header {
+            background: rgba(15, 23, 42, 0.85);
+            border-bottom-color: rgba(51, 65, 85, 0.7);
+        }
+        body.theme-dark .stat-card,
+        body.theme-dark .modal,
+        body.theme-dark .meta-tile,
+        body.theme-dark .detail-block {
+            background: var(--surface-2);
+            border-color: var(--border);
+        }
+        body.theme-dark .modal-body,
+        body.theme-dark .modal-header {
+            background: var(--surface-2);
+        }
+        body.theme-dark .event-log {
+            background: #0b1120;
+            border-color: var(--border);
+        }
+        body.theme-dark .ev-line {
+            border-bottom-color: var(--border);
+        }
+        body.theme-dark .ev-ts,
+        body.theme-dark .ev-body,
+        body.theme-dark .detail-block h4,
+        body.theme-dark .detail-head .sub,
+        body.theme-dark .meta-tile .label {
+            color: var(--text-muted);
+        }
+        body.theme-dark .detail-head h3,
+        body.theme-dark .meta-tile .val {
+            color: var(--text);
+        }
+        body.theme-dark .activity-item--ok { background: rgba(13, 148, 136, 0.08); }
+        body.theme-dark .activity-item--warn { background: rgba(180, 83, 9, 0.12); }
+        body.theme-dark .activity-item--bad { background: rgba(220, 38, 38, 0.12); }
+        body.theme-dark .ui-run-toolbar,
+        body.theme-dark .ui-spec-item {
+            background: var(--surface-2);
+            border-color: var(--border);
+        }
+        body.theme-dark .code-editor-wrap { border-color: var(--border); }
+        body.theme-dark .case-table th { background: var(--surface-2); }
+        body.theme-dark .case-table th,
+        body.theme-dark .case-table td { border-color: var(--border); }
+        body.theme-dark select,
+        body.theme-dark input[type="text"],
+        body.theme-dark input[type="search"],
+        body.theme-dark textarea.code-area,
+        body.theme-dark textarea.cfg-curl-textarea,
+        body.theme-dark .ui-spec-name-input {
+            background: var(--surface);
+            color: var(--text);
+            border-color: var(--border-strong);
+        }
+        body.theme-dark .toast {
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* —— 主题切换按钮 —— */
+        .header-icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.15s, border-color 0.15s, background 0.15s;
+            flex-shrink: 0;
+        }
+        .header-icon-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--accent-muted);
+        }
+        .header-icon-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* —— Toast 通知 —— */
+        .toast-container {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: min(380px, calc(100vw - 32px));
+            pointer-events: none;
+        }
+        .toast {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            color: var(--text);
+            font-size: 13px;
+            line-height: 1.5;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateX(120%);
+            transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+            pointer-events: auto;
+        }
+        .toast.toast--show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .toast.toast--leaving {
+            opacity: 0;
+            transform: translateX(120%);
+        }
+        .toast-icon {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            margin-top: 1px;
+        }
+        .toast-icon svg { width: 100%; height: 100%; }
+        .toast--success .toast-icon { color: #16a34a; }
+        .toast--error .toast-icon { color: var(--danger); }
+        .toast--warning .toast-icon { color: #d97706; }
+        .toast--info .toast-icon { color: var(--accent); }
+        .toast--success { border-left: 3px solid #16a34a; }
+        .toast--error { border-left: 3px solid var(--danger); }
+        .toast--warning { border-left: 3px solid #d97706; }
+        .toast--info { border-left: 3px solid var(--accent); }
+        .toast-msg { flex: 1; min-width: 0; word-break: break-word; }
+
+        /* —— 加载骨架屏 —— */
+        .skeleton {
+            display: block;
+            background: linear-gradient(90deg, var(--border) 25%, var(--surface) 50%, var(--border) 75%);
+            background-size: 200% 100%;
+            animation: qauto-shimmer 1.4s ease-in-out infinite;
+            border-radius: var(--radius-sm);
+            height: 14px;
+        }
+        .skeleton-line { height: 14px; }
+        .skeleton-square { height: 100%; min-height: 32px; }
+        @keyframes qauto-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skeleton-wrap { display: flex; flex-direction: column; gap: 8px; }
+        .skeleton-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface-2);
+        }
+        .skeleton-row .skeleton { height: 12px; }
+
+        /* —— 快捷键帮助面板 —— */
+        .modal--sm {
+            max-width: 460px;
+            width: 90%;
+        }
+        .kbd-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .kbd-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .kbd-table tr:last-child td { border-bottom: none; }
+        .kbd-keys { white-space: nowrap; width: 40%; }
+        kbd {
+            display: inline-block;
+            min-width: 24px;
+            padding: 3px 8px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-bottom-width: 2px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .kbd-plus {
+            color: var(--text-muted);
+            margin: 0 4px;
+            font-size: 11px;
+        }
     </style>
 </head>
 <body class="shell-home">
@@ -4602,6 +4830,10 @@
             <div class="header-right">
                 <nav id="header-context" class="header-context" aria-label="当前位置"></nav>
                 <span class="header-badge" id="header-badge">Quality Assurance</span>
+                <button type="button" id="theme-toggle" class="header-icon-btn" aria-label="切换主题" title="切换主题">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
             </div>
         </div>
     </header>
@@ -4822,6 +5054,7 @@
         </div>
     </div>
 
+    <div id="toast-container" class="toast-container" aria-live="assertive"></div>
     <div id="api-status-bar" class="api-status-bar" aria-live="polite">
         <span id="api-status-text">连接中…</span>
         <span id="api-status-detail"></span>
@@ -4829,6 +5062,8 @@
 
     <script src="/static/vendor/js-yaml.min.js"></script>
     <script src="/static/vendor/chart.umd.min.js"></script>
+    <script src="/static/ui-kit.js"></script>
+    <script src="/static/theme.js"></script>
     <script src="/static/chat-panel.js"></script>
     <script src="/static/config-editor.js"></script>
     <script src="/static/curl-wizard.js"></script>

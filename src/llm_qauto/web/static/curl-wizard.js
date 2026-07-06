@@ -193,7 +193,7 @@ ${anchorLines.join("\n")}`;
         const dimension_ids = PROMPT_REWRITE_DIMS.map((d) => d.id);
         obj.evaluation.aggregation_method = "weighted_average";
         obj.evaluation.batch_llm = {
-            model: "gemini-3.1-pro-preview",
+            model: "deepseek-v4-pro",
             temperature: 0.08,
             max_tokens: 4000,
             max_judge_input_chars: 14000,
@@ -366,7 +366,7 @@ ${anchorLines.join("\n")}`;
 
         const dimension_ids = GENERIC_DIMS.map((d) => d.id);
         obj.evaluation.batch_llm = {
-            model: "gemini-3.1-pro-preview",
+            model: "deepseek-v4-pro",
             temperature: 0.1,
             max_tokens: 3000,
             max_judge_input_chars: 14000,

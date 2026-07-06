@@ -145,7 +145,7 @@ evaluation:
 
   # 单次全评：一次调用，返回 dimensions 下七个子对象
   batch_llm:
-    model: gemini-3.1-pro-preview
+    model: deepseek-v4-pro
     temperature: 0.08
     max_tokens: 5000
     max_judge_input_chars: 14000

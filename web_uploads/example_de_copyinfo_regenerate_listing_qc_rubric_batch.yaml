@@ -26,10 +26,10 @@ target:
         Origin: http://192.168.9.202:81
         Referer: http://192.168.9.202:81/
         User-Agent: >-
-          Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0
+          Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0
           Safari/537.36
         tenant-id: '100058'
-        Authorization: Bearer 51d7e68e4d674da6a43bc324e7455665
+        Authorization: Bearer 8a215a3410254cae901d58f77db98e68
   input_formatter:
     name: json_payload
     template:
@@ -73,61 +73,12 @@ data_generator:
     - name: id
       type: enum
       values:
-        - '8001'
-        - '8002'
-        - '8003'
-        - '8004'
-        - '8005'
-        - '8006'
-        - '8007'
-        - '8008'
-        - '8009'
-        - '8010'
-        - '8011'
-        - '8012'
-        - '8013'
-        - '8014'
-        - '8015'
-        - '8016'
-        - '8017'
-        - '8018'
-        - '8019'
-        - '8020'
-        - '8021'
-        - '8022'
-        - '8023'
-        - '8024'
-        - '8025'
-        - '8026'
-        - '8027'
-        - '8028'
-        - '8029'
-        - '8030'
-        - '8031'
-        - '8032'
-        - '8033'
-        - '8034'
-        - '8035'
-        - '8036'
-        - '8037'
-        - '8038'
-        - '8039'
-        - '8040'
-        - '8041'
-        - '8042'
-        - '8043'
-        - '8044'
         - '8045'
-        - '8046'
-        - '8047'
-        - '8048'
-        - '8049'
-        - '8050'
   sampling: {}
 evaluation:
   aggregation_method: weighted_average
   batch_llm:
-    model: gemini-3.1-pro-preview
+    model: deepseek-v4-pro
     temperature: 0.08
     max_tokens: 5000
     max_judge_input_chars: 14000

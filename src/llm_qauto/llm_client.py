@@ -122,6 +122,7 @@ class LLMClient:
                     or lower.startswith("o1")
                     or lower.startswith("o3")
                     or lower.startswith("claude-")
+                    or lower.startswith("gemini-")
                 )
 
             if self.endpoint_id:

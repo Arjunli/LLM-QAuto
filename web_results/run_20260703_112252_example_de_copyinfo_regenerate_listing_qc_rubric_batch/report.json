@@ -1,0 +1,600 @@
+{
+  "run_id": "run_20260703_112252_example_de_copyinfo_regenerate_listing_qc_rubric_batch",
+  "project_name": "de-copyinfo-regenerate-listing-qc-rubric-batch",
+  "start_time": "2026-07-03 11:22:52.545312",
+  "end_time": "2026-07-03 11:24:49.566397",
+  "status": "passed",
+  "total_cases": 1,
+  "passed_cases": 1,
+  "failed_cases": 0,
+  "pass_rate": 100.0,
+  "total_cost_usd": 0.0,
+  "dimension_stats": [
+    {
+      "dimension_id": "fact_consistency",
+      "dimension_name": "事实一致性",
+      "total_cases": 1,
+      "passed_cases": 1,
+      "failed_cases": 0,
+      "pass_rate": 100.0,
+      "avg_score": 10.0,
+      "min_score": 10.0,
+      "max_score": 10.0,
+      "std_score": 0.0,
+      "category_distribution": [
+        {
+          "category": "事实一致性完美",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        }
+      ],
+      "fail_reasons": {}
+    },
+    {
+      "dimension_id": "keyword_strategy",
+      "dimension_name": "关键词策略",
+      "total_cases": 1,
+      "passed_cases": 1,
+      "failed_cases": 0,
+      "pass_rate": 100.0,
+      "avg_score": 9.0,
+      "min_score": 9.0,
+      "max_score": 9.0,
+      "std_score": 0.0,
+      "category_distribution": [
+        {
+          "category": "标题质量良好",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        },
+        {
+          "category": "关键词嵌入充分",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        },
+        {
+          "category": "标题长度略短",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        }
+      ],
+      "fail_reasons": {}
+    },
+    {
+      "dimension_id": "competitor_signal",
+      "dimension_name": "竞品信号利用",
+      "total_cases": 1,
+      "passed_cases": 1,
+      "failed_cases": 0,
+      "pass_rate": 100.0,
+      "avg_score": 9.0,
+      "min_score": 9.0,
+      "max_score": 9.0,
+      "std_score": 0.0,
+      "category_distribution": [
+        {
+          "category": "差异化清晰",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        },
+        {
+          "category": "自然表达",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        }
+      ],
+      "fail_reasons": {}
+    },
+    {
+      "dimension_id": "conversion_copy",
+      "dimension_name": "转化文案质量",
+      "total_cases": 1,
+      "passed_cases": 1,
+      "failed_cases": 0,
+      "pass_rate": 100.0,
+      "avg_score": 9.5,
+      "min_score": 9.5,
+      "max_score": 9.5,
+      "std_score": 0.0,
+      "category_distribution": [
+        {
+          "category": "Bullet结构优秀",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        },
+        {
+          "category": "利益前置",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        },
+        {
+          "category": "分工合理",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        }
+      ],
+      "fail_reasons": {}
+    },
+    {
+      "dimension_id": "description_structure",
+      "dimension_name": "Description 结构",
+      "total_cases": 1,
+      "passed_cases": 1,
+      "failed_cases": 0,
+      "pass_rate": 100.0,
+      "avg_score": 9.0,
+      "min_score": 9.0,
+      "max_score": 9.0,
+      "std_score": 0.0,
+      "category_distribution": [
+        {
+          "category": "结构清晰",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        },
+        {
+          "category": "Rufus可回答性高",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        }
+      ],
+      "fail_reasons": {}
+    },
+    {
+      "dimension_id": "compliance_risk",
+      "dimension_name": "合规与风险提示",
+      "total_cases": 1,
+      "passed_cases": 1,
+      "failed_cases": 0,
+      "pass_rate": 100.0,
+      "avg_score": 10.0,
+      "min_score": 10.0,
+      "max_score": 10.0,
+      "std_score": 0.0,
+      "category_distribution": [
+        {
+          "category": "无合规风险",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        }
+      ],
+      "fail_reasons": {}
+    },
+    {
+      "dimension_id": "user_special_notes",
+      "dimension_name": "用户特殊说明",
+      "total_cases": 1,
+      "passed_cases": 1,
+      "failed_cases": 0,
+      "pass_rate": 100.0,
+      "avg_score": 8.0,
+      "min_score": 8.0,
+      "max_score": 8.0,
+      "std_score": 0.0,
+      "category_distribution": [
+        {
+          "category": "无特殊说明",
+          "count": 1,
+          "percentage": 100.0,
+          "confidence_interval": [
+            0.20654329147389294,
+            1.0
+          ]
+        }
+      ],
+      "fail_reasons": {}
+    }
+  ],
+  "criteria_results": [
+    {
+      "criteria_id": "global_min_score",
+      "description": "全局平均分门槛",
+      "passed": true,
+      "actual_value": 9.325,
+      "expected_value": 8.5,
+      "details": "平均得分: 9.32"
+    },
+    {
+      "criteria_id": "fact_consistency_min_avg",
+      "description": "事实一致性维度平均分",
+      "passed": true,
+      "actual_value": 10.0,
+      "expected_value": 8.0,
+      "details": "维度「事实一致性」平均得分: 10.00"
+    },
+    {
+      "criteria_id": "keyword_strategy_min_avg",
+      "description": "关键词策略维度平均分",
+      "passed": true,
+      "actual_value": 9.0,
+      "expected_value": 7.2,
+      "details": "维度「关键词策略」平均得分: 9.00"
+    },
+    {
+      "criteria_id": "compliance_risk_min_avg",
+      "description": "合规与风险提示维度平均分",
+      "passed": true,
+      "actual_value": 10.0,
+      "expected_value": 8.0,
+      "details": "维度「合规与风险提示」平均得分: 10.00"
+    },
+    {
+      "criteria_id": "competitor_signal_min_avg",
+      "description": "竞品信号利用维度平均分",
+      "passed": true,
+      "actual_value": 9.0,
+      "expected_value": 7.0,
+      "details": "维度「竞品信号利用」平均得分: 9.00"
+    },
+    {
+      "criteria_id": "conversion_copy_min_avg",
+      "description": "转化文案质量维度平均分",
+      "passed": true,
+      "actual_value": 9.5,
+      "expected_value": 7.0,
+      "details": "维度「转化文案质量」平均得分: 9.50"
+    },
+    {
+      "criteria_id": "description_structure_min_avg",
+      "description": "Description 结构维度平均分",
+      "passed": true,
+      "actual_value": 9.0,
+      "expected_value": 7.0,
+      "details": "维度「Description 结构」平均得分: 9.00"
+    },
+    {
+      "criteria_id": "user_special_notes_min_avg",
+      "description": "用户特殊说明维度平均分",
+      "passed": true,
+      "actual_value": 8.0,
+      "expected_value": 6.0,
+      "details": "维度「用户特殊说明」平均得分: 8.00"
+    }
+  ],
+  "suite_meta": {
+    "name": "de-copyinfo-regenerate-listing-qc-rubric-batch",
+    "version": "0.2.0-cdq",
+    "description": "德国站 regenerate Listing 七维质检 — CDQ V3 文案对齐 · 单次全评",
+    "output_parser": {
+      "path": "data",
+      "keys": [
+        "id",
+        "sku",
+        "site",
+        "language",
+        "productName",
+        "productParameters",
+        "dataCompleteness",
+        "keywordRanking",
+        "title",
+        "titleTrans",
+        "bulletPoints1",
+        "bulletPoints2",
+        "bulletPoints3",
+        "bulletPoints4",
+        "bulletPoints5",
+        "bulletPointsTrans1",
+        "bulletPointsTrans2",
+        "bulletPointsTrans3",
+        "bulletPointsTrans4",
+        "bulletPointsTrans5",
+        "description",
+        "descriptionTrans",
+        "searchTerms",
+        "tag1",
+        "tag2",
+        "tag3",
+        "tag4",
+        "tag5"
+      ]
+    },
+    "dimension_display_names": {
+      "fact_consistency": "事实一致性",
+      "keyword_strategy": "关键词策略",
+      "competitor_signal": "竞品信号利用",
+      "conversion_copy": "转化文案质量",
+      "description_structure": "Description 结构",
+      "compliance_risk": "合规与风险提示",
+      "user_special_notes": "用户特殊说明"
+    }
+  },
+  "aggregation_method": "weighted_average",
+  "cases": [
+    {
+      "case_id": "case_0001",
+      "passed": true,
+      "aggregated_score": 9.325,
+      "input_prompt": "8045",
+      "input_variables": {
+        "id": "8045"
+      },
+      "invoke_latency_ms": 594.0000000045984,
+      "output_error": null,
+      "content_mode": "text",
+      "output_char_count": 4600,
+      "output_preview": "{\"id\": 8045, \"sku\": \"260527JHM08-XQPG02XJLDE2\", \"site\": \"DE\", \"language\": \"德语\", \"productName\": \"2件带铃铛的猫项圈皮革（黑色）\", \"productParameters\": \"理想合身：可调节的猫项圈，胸围宽度为1厘米。颈围可调节范围为20厘米至30厘米，适合大多数猫咪，从幼年到老年动物\\r\\n柔软易穿：采用柔性PU皮革制成。皮肤友好且穿着舒适，完全没有化学气味\\r\\n安全锁：内置安全锁。在拉力下可靠溶解，防止可能的勾结，并为你的猫咪提供可靠的保护\\r\\n时尚细节 装饰着独特的复古黄铜铃铛。它增添了时尚感，帮助定位你的猫咪，并能温和地提醒鸟儿\\r\\n日常使用简便：整个项圈重量约为13克。极其轻便，几乎察觉不到，适合全天轻松无忧的穿着\", \"dataCompleteness\": 85, \"keywordRanking\": \"[{\\\"keyword\\\":\\\"katzenhalsband\\\",\\\"ranking\\\":1}]\", \"title\": \"2 Stück Katzenhalsband mit Sicherheitsverschluss, Verstellbares PU-Leder Halsband Katze mit Glocke, 20-30 cm für Kitten und Freigänger, Schwarz\", \"titleTrans\": \"2件装带安全扣的猫项圈，可调节PU皮革带铃铛猫项圈，20-30厘米适合幼猫和户外猫，黑色\", \"bulletPoints1\": \"Praktisches 2er-Set für den Alltag: Das Set enthält zwei schwarze Katzenhalsbänder aus weichem PU-Leder. Es bietet eine ideale Ausstattung für Mehrkatzenhaushalte oder dient als praktischer Ersatz, damit Ihre Katze stets ein passendes Halsband zur Verfügung hat.\", \"bulletPoints2\": \"Zuverlässiger Breakaway-Mechanismus: Jedes Katzenhalsband mit Sicherheitsverschluss öffnet sich automatisch unter Zugkraft. Dieses durchdachte Design verhindert ein Hängenbleiben an Ästen oder Zäunen und bietet Ihrer Katze Schutz bei Erkundungstouren.\", \"bulletPoints3\": \"Stufenlos verstellbare Passform: Mit einer Breite von 1 cm lässt sich der Halsumfang flexibel von 20 cm bis 30 cm anpassen. Ein bequemes Halsband für Kitten, erwachsene Katzen und Senioren, das einfach mitwächst und nicht einengt.\", \"bulletPoints4\": \"Akustische Lokalisierung: Jedes Katzenhalsband mit Glocke ist mit einem d\n…[已截断]",
+      "media_count": 0,
+      "media_preview_paths": [],
+      "judgment_latency_ms_total": 115031.99999999924,
+      "failed_dimensions": [],
+      "dimensions": {
+        "fact_consistency": {
+          "evaluator_type": "llm_batch",
+          "passed": true,
+          "score": 10.0,
+          "categories": [
+            "事实一致性完美"
+          ],
+          "issues": [],
+          "evidence": "标题、5条Bullet、描述、searchTerms均与productName（2件装、黑色、PU皮革、带铃铛）及productParameters（可调节20-30cm、宽度1cm、安全锁、黄铜铃铛、约13g）完全一致，无矛盾或捏造信息。",
+          "confidence": 0.8,
+          "judgment_time_ms": 16433.14285714275,
+          "metadata": {
+            "model": "deepseek-v4-pro",
+            "batch": true
+          },
+          "evaluators_in_chain": 1
+        },
+        "keyword_strategy": {
+          "evaluator_type": "llm_batch",
+          "passed": true,
+          "score": 9.0,
+          "categories": [
+            "标题质量良好",
+            "关键词嵌入充分",
+            "标题长度略短"
+          ],
+          "issues": [
+            "标题长度129字符，略低于DE推荐150-200字符，可能缺失部分长尾场景词"
+          ],
+          "evidence": "核心词'katzenhalsband'在标题、Bullet、描述中均出现，keywordRanking首位词已覆盖；searchTerms无堆砌；移动端前80字符包含核心品类与数量。",
+          "confidence": 0.8,
+          "judgment_time_ms": 16433.14285714275,
+          "metadata": {
+            "model": "deepseek-v4-pro",
+            "batch": true,
+            "keyword_metrics": {
+              "core_keywords": [
+                "katzenhalsband"
+              ],
+              "title_char_count": 129,
+              "title_front80": "2 Stück Katzenhalsband mit Sicherheitsverschluss, Verstellbares PU-Leder Halsband Katze",
+              "hits": {
+                "title": 1,
+                "bullets": 3,
+                "description": 2,
+                "searchTerms": 1
+              },
+              "missing_keywords": [],
+              "title_cdq_subscores": {
+                "core_kw": 10,
+                "specs": 10,
+                "features": 10,
+                "length": 7,
+                "front80": 10
+              }
+            }
+          },
+          "evaluators_in_chain": 1
+        },
+        "competitor_signal": {
+          "evaluator_type": "llm_batch",
+          "passed": true,
+          "score": 9.0,
+          "categories": [
+            "差异化清晰",
+            "自然表达"
+          ],
+          "issues": [],
+          "evidence": "基于品类最佳实践，突出2件装、PU皮革、复古黄铜铃铛等差异化卖点，无抄袭或高风险声明，表达符合DE站习惯。",
+          "confidence": 0.8,
+          "judgment_time_ms": 16433.14285714275,
+          "metadata": {
+            "model": "deepseek-v4-pro",
+            "batch": true
+          },
+          "evaluators_in_chain": 1
+        },
+        "conversion_copy": {
+          "evaluator_type": "llm_batch",
+          "passed": true,
+          "score": 9.5,
+          "categories": [
+            "Bullet结构优秀",
+            "利益前置",
+            "分工合理"
+          ],
+          "issues": [],
+          "evidence": "5条Bullet均超80字符且未超550，benefit-first明显；第1-2条前置核心卖点（2件套、安全机制）；分工覆盖核心卖点、安全、尺寸、铃铛、轻量舒适。",
+          "confidence": 0.8,
+          "judgment_time_ms": 16433.14285714275,
+          "metadata": {
+            "model": "deepseek-v4-pro",
+            "batch": true,
+            "cosmo_gaps": []
+          },
+          "evaluators_in_chain": 1
+        },
+        "description_structure": {
+          "evaluator_type": "llm_batch",
+          "passed": true,
+          "score": 9.0,
+          "categories": [
+            "结构清晰",
+            "Rufus可回答性高"
+          ],
+          "issues": [
+            "未明确说明不含其他配件"
+          ],
+          "evidence": "描述采用价值主张→安全设计→使用场景→清洁保养四段式，无Bullet复读；Rufus可回答数量、尺寸、材质、场景、清洁等问题。",
+          "confidence": 0.8,
+          "judgment_time_ms": 16433.14285714275,
+          "metadata": {
+            "model": "deepseek-v4-pro",
+            "batch": true,
+            "rufus_score": {
+              "answerable": 4,
+              "total": 5,
+              "gaps": [
+                "未明确说明不含配件"
+              ]
+            }
+          },
+          "evaluators_in_chain": 1
+        },
+        "compliance_risk": {
+          "evaluator_type": "llm_batch",
+          "passed": true,
+          "score": 10.0,
+          "categories": [
+            "无合规风险"
+          ],
+          "issues": [],
+          "evidence": "无绝对化用语、未验证声明或夸大承诺；翻译与德语原文语义一致；无需额外风险消除标注。",
+          "confidence": 0.8,
+          "judgment_time_ms": 16433.14285714275,
+          "metadata": {
+            "model": "deepseek-v4-pro",
+            "batch": true,
+            "risk_items": []
+          },
+          "evaluators_in_chain": 1
+        },
+        "user_special_notes": {
+          "evaluator_type": "llm_batch",
+          "passed": true,
+          "score": 8.0,
+          "categories": [
+            "无特殊说明"
+          ],
+          "issues": [],
+          "evidence": "锚点productParameters所有要点均在正文中体现，无额外业务特殊要求。",
+          "confidence": 0.8,
+          "judgment_time_ms": 16433.14285714275,
+          "metadata": {
+            "model": "deepseek-v4-pro",
+            "batch": true
+          },
+          "evaluators_in_chain": 1
+        }
+      },
+      "output_parser_keys": [
+        "id",
+        "sku",
+        "site",
+        "language",
+        "productName",
+        "productParameters",
+        "dataCompleteness",
+        "keywordRanking",
+        "title",
+        "titleTrans",
+        "bulletPoints1",
+        "bulletPoints2",
+        "bulletPoints3",
+        "bulletPoints4",
+        "bulletPoints5",
+        "bulletPointsTrans1",
+        "bulletPointsTrans2",
+        "bulletPointsTrans3",
+        "bulletPointsTrans4",
+        "bulletPointsTrans5",
+        "description",
+        "descriptionTrans",
+        "searchTerms",
+        "tag1",
+        "tag2",
+        "tag3",
+        "tag4",
+        "tag5"
+      ],
+      "parsed_fields": {
+        "id": 8045,
+        "sku": "260527JHM08-XQPG02XJLDE2",
+        "site": "DE",
+        "language": "德语",
+        "productName": "2件带铃铛的猫项圈皮革（黑色）",
+        "productParameters": "理想合身：可调节的猫项圈，胸围宽度为1厘米。颈围可调节范围为20厘米至30厘米，适合大多数猫咪，从幼年到老年动物\r\n柔软易穿：采用柔性PU皮革制成。皮肤友好且穿着舒适，完全没有化学气味\r\n安全锁：内置安全锁。在拉力下可靠溶解，防止可能的勾结，并为你的猫咪提供可靠的保护\r\n时尚细节 装饰着独特的复古黄铜铃铛。它增添了时尚感，帮助定位你的猫咪，并能温和地提醒鸟儿\r\n日常使用简便：整个项圈重量约为13克。极其轻便，几乎察觉不到，适合全天轻松无忧的穿着",
+        "dataCompleteness": 85,
+        "keywordRanking": "[{\"keyword\":\"katzenhalsband\",\"ranking\":1}]",
+        "title": "2 Stück Katzenhalsband mit Sicherheitsverschluss, Verstellbares PU-Leder Halsband Katze mit Glocke, 20-30 cm für Kitten und Freigänger, Schwarz",
+        "titleTrans": "2件装带安全扣的猫项圈，可调节PU皮革带铃铛猫项圈，20-30厘米适合幼猫和户外猫，黑色",
+        "bulletPoints1": "Praktisches 2er-Set für den Alltag: Das Set enthält zwei schwarze Katzenhalsbänder aus weichem PU-Leder. Es bietet eine ideale Ausstattung für Mehrkatzenhaushalte oder dient als praktischer Ersatz, damit Ihre Katze stets ein passendes Halsband zur Verfügung hat.",
+        "bulletPoints2": "Zuverlässiger Breakaway-Mechanismus: Jedes Katzenhalsband mit Sicherheitsverschluss öffnet sich automatisch unter Zugkraft. Dieses durchdachte Design verhindert ein Hängenbleiben an Ästen oder Zäunen und bietet Ihrer Katze Schutz bei Erkundungstouren.",
+        "bulletPoints3": "Stufenlos verstellbare Passform: Mit einer Breite von 1 cm lässt sich der Halsumfang flexibel von 20 cm bis 30 cm anpassen. Ein bequemes Halsband für Kitten, erwachsene Katzen und Senioren, das einfach mitwächst und nicht einengt.",
+        "bulletPoints4": "Akustische Lokalisierung: Jedes Katzenhalsband mit Glocke ist mit einem dekorativen Retro-Messingglöckchen ausgestattet. Das sanfte Klingeln hilft Ihnen, Ihre Katze im Haus oder Garten leichter zu finden, und kann Vögel in der Nähe vorwarnen.",
+        "bulletPoints5": "Hoher Tragekomfort: Mit einem Gewicht von nur ca. 13 Gramm ist das Halsband für die Katze extrem leicht und kaum spürbar. Das flexible Material sorgt für einen angenehmen Sitz, ohne die natürlichen Bewegungsabläufe zu stören.",
+        "bulletPointsTrans1": "实用的日常2件装: 该套装包含两条由柔软PU皮革制成的黑色猫项圈。它为多猫家庭提供了理想的装备，也可作为实用的备用品，确保您的猫咪始终有合适的项圈可用。",
+        "bulletPointsTrans2": "可靠的受力断开机制: 每条带安全锁扣的猫项圈在受到拉力时会自动断开。这种贴心的设计可防止猫咪被树枝或栅栏勾住，为它们在探索时提供安全保护。",
+        "bulletPointsTrans3": "无级调节贴合度: 宽度为1厘米，颈围可在20厘米至30厘米之间灵活调节。这是一款适合幼猫、成年猫和老年猫的舒适项圈，能够伴随猫咪成长且不勒脖子。",
+        "bulletPointsTrans4": "声音定位功能: 每条带铃铛的猫项圈都配有装饰性的复古黄铜铃铛。清脆的铃声不仅能帮助您在室内或花园中更轻松地找到猫咪，还能提前警告附近的鸟类。",
+        "bulletPointsTrans5": "极高的佩戴舒适度: 这款猫项圈重量仅约13克，极其轻巧，几乎感觉不到。柔软的材质确保佩戴舒适，不会干扰猫咪的自然活动。",
+        "description": "<b>Praktisches Katzenhalsband im 2er-Set</b><br>Dieses Set enthält zwei schwarze Katzenhalsbänder aus weichem PU-Leder, die speziell für den täglichen Komfort Ihrer Katze entwickelt wurden. Mit einem verstellbaren Halsumfang von 20 bis 30 cm wächst das Halsband mit und eignet sich für Tiere in jedem Alter – vom verspielten Kätzchen bis zur ruhigen Seniorkatze. Jedes Band wiegt nur etwa 13 Gramm und stört die natürlichen Bewegungsabläufe nicht.<br><br><b>Sicherheit & Design</b><br>Der integrierte Sicherheitsverschluss ist das Herzstück dieses Designs. Er löst sich zuverlässig, sobald Zugkraft auf das Band einwirkt, sodass sich Freigänger bei einem Hängenbleiben an Zäunen oder Ästen selbst befreien können. Zusätzlich verfügt das Katzenhalsband über eine Retro-Messingglocke, die nicht nur stilvoll aussieht, sondern auch bei der akustischen Ortung im Haus oder Garten hilft.<br><br><b>Alltägliche Einsatzbereiche</b><br>Egal ob bei Erkundungstouren im Freien oder beim Entspannen im Innenbereich – das leichte Halsband bietet eine zuverlässige Möglichkeit, Ihre Katze auszustatten. Das sanfte Klingeln der Glocke kann zudem Wildtiere und Vögel in der Umgebung akustisch vorwarnen.<br><br><b>Pflegehinweise</b><br>Das verwendete PU-Leder ist pflegeleicht und lässt sich bei leichten Verschmutzungen einfach mit einem feuchten Tuch abwischen. Bitte überprüfen Sie regelmäßig die Passform am Hals Ihrer Katze, um stets einen komfortablen und sicheren Sitz zu gewährleisten.",
+        "descriptionTrans": "<b>实用2件装猫项圈</b><br>本套装包含两条由柔软PU皮革制成的黑色猫项圈，专为猫咪的日常舒适佩戴而设计。颈围可在20至30厘米之间自由调节，能够伴随猫咪成长，适合从活泼的幼猫到安静的老年猫等各年龄段的宠物。每条项圈仅重约13克，不会干扰猫咪的自然活动。<br><br><b>安全与设计</b><br>内置的安全锁扣是该设计的核心。当项圈受到拉力时，锁扣会可靠断开，确保户外猫在被栅栏或树枝勾住时能够自行挣脱。此外，这款猫项圈还配有复古黄铜铃铛，不仅外观时尚，还能帮助您在室内或花园中通过声音定位猫咪。<br><br><b>日常使用场景</b><br>无论是户外探索还是室内休息，这款轻便的项圈都能为您的猫咪提供可靠的佩戴体验。铃铛发出的清脆响声还能在一定程度上提醒周围的野生动物和鸟类。<br><br><b>清洁与保养</b><br>所采用的PU皮革易于打理，若有轻微污渍，只需用湿布轻轻擦拭即可。请定期检查猫咪颈部的佩戴松紧度，以确保始终舒适安全。",
+        "searchTerms": "breakaway quick release kätzchen schnellverschluss halsbänder katzen halsband",
+        "tag1": "包装内容",
+        "tag2": "安全设计",
+        "tag3": "尺寸调节",
+        "tag4": "配件功能",
+        "tag5": "轻巧舒适"
+      },
+      "judge_excerpt": "{\n  \"id\": 8045,\n  \"sku\": \"260527JHM08-XQPG02XJLDE2\",\n  \"site\": \"DE\",\n  \"language\": \"德语\",\n  \"productName\": \"2件带铃铛的猫项圈皮革（黑色）\",\n  \"productParameters\": \"理想合身：可调节的猫项圈，胸围宽度为1厘米。颈围可调节范围为20厘米至30厘米，适合大多数猫咪，从幼年到老年动物\\r\\n柔软易穿：采用柔性PU皮革制成。皮肤友好且穿着舒适，完全没有化学气味\\r\\n安全锁：内置安全锁。在拉力下可靠溶解，防止可能的勾结，并为你的猫咪提供可靠的保护\\r\\n时尚细节 装饰着独特的复古黄铜铃铛。它增添了时尚感，帮助定位你的猫咪，并能温和地提醒鸟儿\\r\\n日常使用简便：整个项圈重量约为13克。极其轻便，几乎察觉不到，适合全天轻松无忧的穿着\",\n  \"dataCompleteness\": 85,\n  \"keywordRanking\": \"[{\\\"keyword\\\":\\\"katzenhalsband\\\",\\\"ranking\\\":1}]\",\n  \"title\": \"2 Stück Katzenhalsband mit Sicherheitsverschluss, Verstellbares PU-Leder Halsband Katze mit Glocke, 20-30 cm für Kitten und Freigänger, Schwarz\",\n  \"titleTrans\": \"2件装带安全扣的猫项圈，可调节PU皮革带铃铛猫项圈，20-30厘米适合幼猫和户外猫，黑色\",\n  \"bulletPoints1\": \"Praktisches 2er-Set für den Alltag: Das Set enthält zwei schwarze Katzenhalsbänder aus weichem PU-Leder. Es bietet eine ideale Ausstattung für Mehrkatzenhaushalte oder dient als praktischer Ersatz, damit Ihre Katze stets ein passendes Halsband zur Verfügung hat.\",\n  \"bulletPoints2\": \"Zuverlässiger Breakaway-Mechanismus: Jedes Katzenhalsband mit Sicherheitsverschluss öffnet sich automatisch unter Zugkraft. Dieses durchdachte Design verhindert ein Hängenbleiben an Ästen oder Zäunen und bietet Ihrer Katze Schutz bei Erkundungstouren.\",\n  \"bulletPoints3\": \"Stufenlos verstellbare Passform: Mit einer Breite von 1 cm lässt sich der Halsumfang flexibel von 20 cm bis 30 cm anpassen. Ein bequemes Halsband für Kitten, erwachsene Katzen und Senioren, das einfach mitwächst und nicht einengt.\",\n  \"bulletPoints4\": \"Akustische Lokalisierung: Jedes Katzenhalsband mit Glocke ist mit einem dekorativen Retro-Messingglöckchen ausgestattet. Das sanfte Klingeln hilft Ihnen, Ihre Katze im Haus oder Garten leichter zu finden, und kann Vögel in der Nähe vorwarnen.\",\n  \"bulletPoints5\": \"Hoher Tragekomfort: Mit einem Gewicht von nur ca. 13 Gramm ist das Halsband für die Katze extrem leicht und kaum spürbar. Das flexible Material sorgt für einen angenehmen Sitz, ohne die natürlichen Bewegungsabläufe zu stören.\",\n  \"bulletPointsTrans1\": \"实用的日常2件装: 该套装包含两条由柔软PU皮革制成的黑色猫项圈。它为多猫家庭提供了理想的装备，也可作为实用的备用品，确保您的猫咪始终有合适的项圈可用。\",\n  \"bulletPointsTrans2\": \"可靠的受力断开机制: 每条带安全锁扣的猫项圈在受到拉力时会自动断开。这种贴心的设计可防止猫咪被树枝或栅栏勾住，为它们在探索时提供安全保护。\",\n  \"bulletPointsTrans3\": \"无级调节贴合度: 宽度为1厘米，颈围可在20厘米至30厘米之间灵活调节。这是一款适合幼猫、成年猫和老年猫的舒适项圈，能够伴随猫咪成长且不勒脖子。\",\n  \"bulletPointsTrans4\": \"声音定位功能: 每条带铃铛的猫项圈都配有装饰性的复古黄铜铃铛。清脆的铃声不仅能帮助您在室内或花园中更轻松地找到猫咪，还能提前警告附近的鸟类。\",\n  \"bulletPointsTrans5\": \"极高的佩戴舒适度: 这款猫项圈重量仅约13克，极其轻巧，几乎感觉不到。柔软的材质确保佩戴舒适，不会干扰猫咪的自然活动。\",\n  \"description\": \"<b>Praktisches Katzenhalsband im 2er-Set</b><br>Dieses Set enthält zwei schwarze Katzenhalsbänder aus weichem PU-Leder, die speziell für den täglichen Komfort Ihrer Katze entwickelt wurden. Mit einem verstellbaren Halsumfang von 20 bis 30 cm wächst das Halsband mit und eignet sich für Tiere in jedem Alter – vom verspielten Kätzchen bis zur ruhigen Seniorkatze. Jedes Band wiegt nur etwa 13 Gramm und stört die natürlichen Bewegungsabläufe nicht.<br><br><b>Sicherheit & Design</b><br>Der integrierte Sicherheitsverschluss ist das Herzstück dieses Designs. Er löst sich zuverlässig, sobald Zugkraft auf das Band einwirkt, sodass sich Freigänger bei einem Hängenbleiben an Zäunen oder Ästen selbst befreien können. Zusätzlich verfügt das Katzenhalsband über eine Retro-Messingglocke, die nicht nur stilvoll aussieht, sondern auch bei der akustischen Ortung im Haus oder Garten hilft.<br><br><b>Alltägliche Einsatzbereiche</b><br>Egal ob bei Erkundungstouren im Freien oder beim Entspannen im Innenbereich – das leichte Halsband bietet eine zuverlässige Möglichkeit, Ihre Katze auszustatten. Das sanfte Klingeln der Glocke kann zudem Wildtiere und Vögel in der Umgebung akustisch vorwarnen.<br><br><b>Pflegehinweise</b><br>Das verwendete PU-Leder ist pflegeleicht und lässt sich bei leichten Verschmutzungen einfach mit einem feuchten Tuch abwischen. Bitte überprüfen Sie regelmäßig die Passform am Hals Ihrer Katze, um stets einen komfortablen und sicheren Sitz zu gewährleisten.\",\n  \"descriptionTrans\": \"<b>实用2件装猫项圈</b><br>本套装包含两条由柔软PU皮革制成的黑色猫项圈，专为猫咪的日常舒适佩戴而设计。颈围可在20至30厘米之间自由调节，能够伴随猫咪成长，适合从活泼的幼猫到安静的老年猫等各年龄段的宠物。每条项圈仅重约13克，不会干扰猫咪的自然活动。<br><br><b>安全与设计</b><br>内置的安全锁扣是该设计的核心。当项圈受到拉力时，锁扣会可靠断开，确保户外猫在被栅栏或树枝勾住时能够自行挣脱。此外，这款猫项圈还配有复古黄铜铃铛，不仅外观时尚，还能帮助您在室内或花园中通过声音定位猫咪。<br><br><b>日常使用场景</b><br>无论是户外探索还是室内休息，这款轻便的项圈都能为您的猫咪提供可靠的佩戴体验。铃铛发出的清脆响声还能在一定程度上提醒周围的野生动物和鸟类。<br><br><b>清洁与保养</b><br>所采用的PU皮革易于打理，若有轻微污渍，只需用湿布轻轻擦拭即可。请定期检查猫咪颈部的佩戴松紧度，以确保始终舒适安全。\",\n  \"searchTerms\": \"breakaway quick release kätzchen schnellverschluss halsbänder katzen halsband\",\n  \"tag1\": \"包装内容\",\n  \"tag2\": \"安全设计\",\n  \"tag3\": \"尺寸调节\",\n  \"tag4\": \"配件功能\",\n  \"tag5\": \"轻巧舒适\"\n}",
+      "invoke_raw_preview": "{\"code\": 0, \"data\": {\"id\": 8045, \"sku\": \"260527JHM08-XQPG02XJLDE2\", \"site\": \"DE\", \"productName\": \"2件带铃铛的猫项圈皮革（黑色）\", \"productImage\": \"https://ai-automation-stage.oss-cn-shenzhen.aliyuncs.com/8686cc87a3909574f9c9d0b62b6a3decd898a50265b7cbed6db89fd2ddaa9ee6.png\", \"productType\": \"pack\", \"coreStrengths\": \"\", \"productParameters\": \"理想合身：可调节的猫项圈，胸围宽度为1厘米。颈围可调节范围为20厘米至30厘米，适合大多数猫咪，从幼年到老年动物\\r\\n柔软易穿：采用柔性PU皮革制成。皮肤友好且穿着舒适，完全没有化学气味\\r\\n安全锁：内置安全锁。在拉力下可靠溶解，防止可能的勾结，并为你的猫咪提供可靠的保护\\r\\n时尚细节 装饰着独特的复古黄铜铃铛。它增添了时尚感，帮助定位你的猫咪，并能温和地提醒鸟儿\\r\\n日常使用简便：整个项圈重量约为13克。极其轻便，几乎察觉不到，适合全天轻松无忧的穿着\", \"createTime\": 1780209596719, \"userId\": 100249, \"userName\": \"徐建龙\", \"deptId\": 100078, \"dataCompleteness\": 85, \"dataErrorMsg\": \"\", \"status\": \"finish\", \"keywordRanking\": \"[{\\\"keyword\\\":\\\"katzenhalsband\\\",\\\"ranking\\\":1}]\", \"keywordRankings\": [{\"keyword\": \"katzenhalsband\", \"ranking\": 1}], \"competitorTraffic\": \"[{\\\"keyword\\\":\\\"katzenhalsband\\\",\\\"weeklySearchVolume\\\":1},{\\\"keyword\\\":\\\"halsband katze\\\",\\\"weeklySearchVolume\\\":1},{\\\"keyword\\\":\\\"katzen halsband\\\",\\\"weeklySearchVolume\\\":1}]\", \"competitorTraffics\": [{\"keyword\": \"katzenhalsband\", \"weeklySearchVolume\": 1}, {\"keyword\": \"halsband katze\", \"weeklySearchVolume\": 1}, {\"keyword\": \"katzen halsband\", \"weeklySearchVolume\": 1}], \"copyLogId\": null, \"language\": \"德语\", \"title\": \"2 Stück Katzenhalsband mit Sicherheitsverschluss, Verstellbares PU-Leder Halsband Katze mit Glocke, 20-30 cm für Kitten und Freigänger, Schwarz\", \"titleTrans\": \"2件装带安全扣的猫项圈，可调节PU皮革带铃铛猫项圈，20-30厘米适合幼猫和户外猫，黑色\", \"bulletPoints1\": \"Praktisches 2er-Set für den Alltag: Das Set enthält zwei schwarze Katzenhalsbänder aus weichem PU-Leder. Es bietet eine ideale Ausstattung für Mehrkatzenhaushalte oder dient als praktischer Ersatz, damit Ihre Katze stets ein passendes Halsband zur Verfügung hat.\", \"bulletPointsTrans1\": \"实用的日常2件装: 该套装包含两条由柔软PU皮革制成的黑色猫项圈。它为多猫家庭提供了理想的装备，也可作为实用的备用品，确保您的猫咪始终有合适的项圈可用。\", \"bulletPoints2\": \"Zuverlässiger Breakaway-Mechanismus: Jedes Katzenhalsband mit Sicherheitsverschluss öffnet sich automatisch unter Zugkraft. Dieses durchdachte Design verhindert ein Hängenbleiben an Ästen oder Zäunen und bietet Ihrer Katze Schutz bei Erkundungstouren.\", \"bulletPointsTrans2\": \"可靠的受力断开机制: 每条带安全锁扣的猫项圈在受到拉力时会自动断开。这种贴心的设计可防止猫咪被树枝或栅栏勾住，为它们在探索时提供安全保护。\", \"bulletPoints3\": \"Stufenlos verstellbare Passform: Mit einer Breite von 1 cm lässt sich der Halsumfang flexibel von 20 cm bis 30 cm anpassen. Ein bequeme…"
+    }
+  ],
+  "failed_examples": [],
+  "disputed_cases": [],
+  "summary": "测试完成: 8/8项通过标准满足\n- 事实一致性: 通过率100.0%, 平均分10.00\n- 关键词策略: 通过率100.0%, 平均分9.00\n- 竞品信号利用: 通过率100.0%, 平均分9.00\n- 转化文案质量: 通过率100.0%, 平均分9.50\n- Description 结构: 通过率100.0%, 平均分9.00\n- 合规与风险提示: 通过率100.0%, 平均分10.00\n- 用户特殊说明: 通过率100.0%, 平均分8.00\n",
+  "recommendations": [],
+  "abort_reason": null,
+  "artifacts_path": "web_results\\run_20260703_112252_example_de_copyinfo_regenerate_listing_qc_rubric_batch\\artifacts",
+  "ci_status": "pass"
+}

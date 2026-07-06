@@ -373,7 +373,7 @@ def scaffold_prompt_rewrite(collected: Dict[str, Any]) -> Dict[str, Any]:
     )
     dim_ids = [d[0] for d in PROMPT_REWRITE_DIMS]
     obj["evaluation"]["batch_llm"] = {
-        "model": "gemini-3.1-pro-preview",
+        "model": "deepseek-v4-pro",
         "temperature": 0.08,
         "max_tokens": 4000,
         "max_judge_input_chars": 14000,
@@ -514,7 +514,7 @@ def scaffold_generic(collected: Dict[str, Any]) -> Dict[str, Any]:
     lines = [f"{i + 1}. {d[0]}（{d[1]}，权重 {int(d[2] * 100)}%）：{d[3]}" for i, d in enumerate(GENERIC_DIMS)]
     intro = "你是内容质检员。请根据接口返回，一次性完成下列全部维度的评分（0～10）。\n\n【各维检查要点】\n" + "\n".join(lines)
     obj["evaluation"]["batch_llm"] = {
-        "model": "gemini-3.1-pro-preview",
+        "model": "deepseek-v4-pro",
         "temperature": 0.1,
         "max_tokens": 3000,
         "max_judge_input_chars": 14000,
